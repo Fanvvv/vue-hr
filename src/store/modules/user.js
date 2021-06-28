@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-28 19:34:01
  * @LastEditors: fan
- * @LastEditTime: 2021-06-28 23:18:05
+ * @LastEditTime: 2021-06-29 00:04:54
  * @Description: 用户的状态
  */
 
@@ -32,9 +32,7 @@ const actions = {
   // 定义 login action 也需要参数 调用action时 传递过来的参数
   async login(context, data) {
     const result = await login(data)
-    if (result.data.success) {
-      context.commit('setToken', result.data.data)
-    }
+    context.commit('setToken', result)
   }
   // 也可以使用 promise 的方法
   // login(context, data) {

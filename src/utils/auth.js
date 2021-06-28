@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-28 19:34:01
  * @LastEditors: fan
- * @LastEditTime: 2021-06-28 22:48:51
+ * @LastEditTime: 2021-06-29 00:05:38
  * @Description: 提供了获取token,设置token,删除token的方法
  */
 import Cookies from 'js-cookie'
