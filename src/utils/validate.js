@@ -1,3 +1,10 @@
+/*
+ * @Author: fan
+ * @Date: 2021-06-28 19:34:01
+ * @LastEditors: fan
+ * @LastEditTime: 2021-06-28 21:51:21
+ * @Description: 校验输入
+ */
 /**
  * Created by PanJiaChen on 16/11/18.
  */
@@ -14,7 +21,6 @@ export function isExternal(path) {
  * @param {string} str
  * @returns {Boolean}
  */
-export function validUsername(str) {
-  const valid_map = ['admin', 'editor']
-  return valid_map.indexOf(str.trim()) >= 0
+export function validMobile(str) {
+  return /^1[3-9]\d{9}$/.test(str) // 校验手机号
 }
