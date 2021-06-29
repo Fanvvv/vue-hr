@@ -2,12 +2,12 @@
  * @Author: fan
  * @Date: 2021-06-28 19:34:01
  * @LastEditors: fan
- * @LastEditTime: 2021-06-29 17:57:07
+ * @LastEditTime: 2021-06-29 18:19:37
  * @Description: 用户的状态
  */
 
 import { login, getUserInfo, getUserDetailById } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, removeToken, setTimeStamp } from '@/utils/auth'
 // 状态
 const state = {
   token: getToken(),
@@ -42,6 +42,8 @@ const actions = {
   async login(context, data) {
     const result = await login(data)
     context.commit('setToken', result)
+    // 写入时间戳
+    setTimeStamp() // 将当前的最新时间写入缓存
   },
   // 也可以使用 promise 的方法
   // login(context, data) {
