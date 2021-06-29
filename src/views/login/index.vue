@@ -25,7 +25,7 @@
         <el-input
           ref="mobile"
           v-model="loginForm.mobile"
-          placeholder="手机号"
+          placeholder="请输入手机号"
           name="mobile"
           type="text"
           tabindex="1"
@@ -42,7 +42,7 @@
           ref="password"
           v-model="loginForm.password"
           :type="passwordType"
-          placeholder="Password"
+          placeholder="请输入密码"
           name="password"
           tabindex="2"
           auto-complete="on"
@@ -87,21 +87,14 @@ export default {
         callback()
       }
     }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
-      } else {
-        callback()
-      }
-    }
     return {
       loginForm: {
         mobile: '13800000002',
         password: '123456'
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateMobile, message: '手机号不能为空' }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword, message: '密码不能为空' }, { min: 6, max: 16, message: '密码的长度在6-16位之间 ', trigger: 'blur' }]
+        mobile: [{ required: true, trigger: 'blur', message: '手机号不能为空' }, { validator: validateMobile, trigger: 'blur' }],
+        password: [{ required: true, trigger: 'blur', message: '密码不能为空' }, { min: 6, max: 16, message: '密码的长度在6-16位之间 ', trigger: 'blur' }]
       },
       loading: false,
       passwordType: 'password',
@@ -195,6 +188,9 @@ $cursor: #fff;
     background: rgba(255, 255, 255, 0.7); // 输入登录表单的背景色
     border-radius: 5px;
     color: #454545;
+    &__error {
+      color: #fff;
+    }
   }
 }
 </style>
