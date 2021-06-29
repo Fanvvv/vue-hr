@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-28 19:34:01
  * @LastEditors: fan
- * @LastEditTime: 2021-06-29 18:22:04
+ * @LastEditTime: 2021-06-29 18:29:34
  * @Description: axios 二次封装
  */
 // 二次封装 axios
@@ -23,9 +23,9 @@ const service = axios.create({
  * @returns 超时逻辑  (当前时间  - 缓存中的时间) 是否大于 时间差
  */
 function isCheckOut() {
-  var currentTime = Date.now() // 当前时间戳
-  var timeStamp = getTimeStamp() // 缓存时间戳
-  console.log(currentTime, timeStamp)
+  const currentTime = Date.now() // 当前时间戳
+  const timeStamp = getTimeStamp() // 缓存时间戳
+  // console.log(currentTime, timeStamp)
   return (currentTime - timeStamp) / 1000 > TimeOut
 }
 // 请求拦截器：请求拦截器主要处理 token 的统一注入问题
@@ -37,7 +37,7 @@ service.interceptors.request.use(config => {
       store.dispatch('user/logout') // 登出操作
       // 跳转到登录页
       router.push('/login')
-      return Promise.reject(new Error('token超时了'))
+      return Promise.reject(new Error('token超时了,请重新登录'))
     }
     config.headers['Authorization'] = `Bearer ${store.getters.token}`
   }
@@ -58,7 +58,13 @@ service.interceptors.response.use(response => {
     return Promise.reject(new Error(message))
   }
 }, err => {
-  Message.error(err.message) // 提示错误信息
+  // token 超时的错误码为 10002
+  if (err.response && err.response.data && err.response.data.code === 10002) {
+    store.dispatch('user/logout') // token 超时，需要重新登录
+    router.push('/login') // 跳转到登录页
+  } else {
+    Message.error(err.message) // 提示错误信息
+  }
   return Promise.reject(err)
 })
 
