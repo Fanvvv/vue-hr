@@ -19,6 +19,7 @@
       >
         <div class="avatar-wrapper">
           <img
+            v-imagerror="defaultImg"
             :src="staffPhoto"
             class="user-avatar"
           >
@@ -64,6 +65,11 @@ export default {
   components: {
     // Breadcrumb,
     Hamburger
+  },
+  data() {
+    return {
+      defaultImg: require('@/assets/common/head.jpg')
+    }
   },
   computed: {
     ...mapGetters([
