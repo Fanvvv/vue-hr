@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-28 19:34:01
  * @LastEditors: fan
- * @LastEditTime: 2021-06-28 23:45:06
+ * @LastEditTime: 2021-06-29 17:19:19
  * @Description: 权限拦截再进行路由跳转（路由守卫）
  */
 // 权限拦截再路由跳转 路由守卫
@@ -17,7 +17,7 @@ const whiteList = ['/login', '404']
 // next() 放过
 // next(false) 终止跳转
 // next(地址) 跳转到某个地址
-router.beforeEach((to, from, next) => {
+router.beforeEach(async(to, from, next) => {
   // 开启进度条
   nProgress.start()
   // 判断 vuex 中是否有 token
@@ -27,6 +27,9 @@ router.beforeEach((to, from, next) => {
       // 跳转到首页
       next('/')
     } else {
+      if (!store.getters.userId) {
+        await store.dispatch('user/getUserInfo')
+      }
       // 直接放行
       next()
     }

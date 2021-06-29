@@ -2,14 +2,14 @@
  * @Author: fan
  * @Date: 2021-06-28 19:34:01
  * @LastEditors: fan
- * @LastEditTime: 2021-06-29 16:56:35
+ * @LastEditTime: 2021-06-29 17:23:38
  * @Description: api用户模块的封装
  */
 import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: 'sys/login',
+    url: '/sys/login',
     method: 'post',
     data
   })
@@ -20,8 +20,17 @@ export function login(data) {
  */
 export function getUserInfo() {
   return request({
-    url: 'sys/profile',
+    url: '/sys/profile',
     method: 'post'
+  })
+}
+
+/**
+ * @description 通过用户id获取用户的具体信息
+ */
+export function getUserDetailById(id) {
+  return request({
+    url: `/sys/user/${id}`
   })
 }
 

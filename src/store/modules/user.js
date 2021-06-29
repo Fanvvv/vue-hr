@@ -2,11 +2,11 @@
  * @Author: fan
  * @Date: 2021-06-28 19:34:01
  * @LastEditors: fan
- * @LastEditTime: 2021-06-29 17:03:12
+ * @LastEditTime: 2021-06-29 17:35:02
  * @Description: 用户的状态
  */
 
-import { login, getUserInfo } from '@/api/user'
+import { login, getUserInfo, getUserDetailById } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 // 状态
 const state = {
@@ -57,8 +57,13 @@ const actions = {
 
   // 获取用户信息资料
   async getUserInfo(context) {
+    // 获取基本信息
     const result = await getUserInfo()
-    context.commit('setUserInfo', result)
+    // 为了获取头像
+    const detail = await getUserDetailById(result.userId)
+    // 把用户信息和头像合并在一起再提交到 mutations
+    context.commit('setUserInfo', { ...result, ...detail })
+    // 这里直接返回 result 也是没关系的，因为 detail 是用于获取用户头像
     return result // 这里需要添加返回值，后面可以用到
   }
 }
