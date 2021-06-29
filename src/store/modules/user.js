@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-28 19:34:01
  * @LastEditors: fan
- * @LastEditTime: 2021-06-29 17:35:02
+ * @LastEditTime: 2021-06-29 17:57:07
  * @Description: 用户的状态
  */
 
@@ -65,6 +65,14 @@ const actions = {
     context.commit('setUserInfo', { ...result, ...detail })
     // 这里直接返回 result 也是没关系的，因为 detail 是用于获取用户头像
     return result // 这里需要添加返回值，后面可以用到
+  },
+
+  // 退出登录
+  logout(context) {
+    // 删除 token
+    context.commit('removeToken') // 不仅仅删除了vuex中的 还删除了缓存中的
+    // 删除用户信息
+    context.commit('removeUserInfo')
   }
 }
 
