@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-28 19:34:01
  * @LastEditors: fan
- * @LastEditTime: 2021-06-30 19:17:10
+ * @LastEditTime: 2021-06-30 20:50:06
  * @Description: 路由
  */
 import Vue from 'vue'
@@ -33,9 +33,7 @@ import Layout from '@/layout'
  */
 
 /**
- * constantRoutes
- * a base page that does not have permission requirements
- * all roles can be accessed
+ * constantRoutes 为静态路由，不管是否有权限都会显示
  */
 export const constantRoutes = [
   {
@@ -58,7 +56,7 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '首页', icon: 'dashboard' }
     }]
   },
 
@@ -66,10 +64,31 @@ export const constantRoutes = [
   { path: '*', redirect: '/404', hidden: true }
 ]
 
+/**
+ * 定义一个动态路由 asyncRoutes
+ * 动态路由根据权限的不同展示不同的页面
+ */
+const asyncRoutes = []
+/**
+ * 将 modules 中的模块都导入，并且 push 到 constantRoutes 中
+ * 使用 webpack 中的 require.context 方法将路由统一导入
+ * 第一个参数：url，路径，要搜索的目录
+ * 第二个参数：是否遍历目录下的子目录，boolean
+ * 第三个参数：匹配文件的正则表达式
+ */
+const file = require.context('./modules', false, /\.js$/)
+// console.log(file.keys())
+file.keys().map(value => {
+  // console.log(file(value).default)
+  asyncRoutes.push(file(value).default)
+})
+// console.log(asyncRoutes)
+
 const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
+  // routes: constantRoutes.concat(asyncRoutes) // 将动态路由和静态路由临时合并
+  routes: [...constantRoutes, ...asyncRoutes] // 将动态路由和静态路由临时合并
 })
 
 const router = createRouter()
