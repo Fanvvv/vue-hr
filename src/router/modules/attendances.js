@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:51:46
  * @LastEditors: fan
- * @LastEditTime: 2021-06-30 20:13:41
+ * @LastEditTime: 2021-06-30 21:07:45
  * @Description: 考勤页路由
  */
 import Layout from '@/layout'
@@ -15,7 +15,8 @@ export default {
     component: () => import('@/views/attendances'),
     // 路由元信息
     meta: {
-      title: '考勤' // 侧边栏在遍历的时候，会遍历这里的 title
+      title: '考勤', // 侧边栏在遍历的时候，会遍历这里的 title
+      icon: 'skill'
     }
   }]
 }

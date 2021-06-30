@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:51:46
  * @LastEditors: fan
- * @LastEditTime: 2021-06-30 20:37:46
+ * @LastEditTime: 2021-06-30 21:08:46
  * @Description: 权限管理页路由
  */
 import Layout from '@/layout'
@@ -15,7 +15,8 @@ export default {
     component: () => import('@/views/permission'),
     // 路由元信息
     meta: {
-      title: '权限管理' // 侧边栏在遍历的时候，会遍历这里的 title
+      title: '权限管理', // 侧边栏在遍历的时候，会遍历这里的 title
+      icon: 'lock'
     }
   }]
 }

@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:51:46
  * @LastEditors: fan
- * @LastEditTime: 2021-06-30 20:15:02
+ * @LastEditTime: 2021-06-30 21:08:26
  * @Description: 员工页路由
  */
 import Layout from '@/layout'
@@ -15,7 +15,8 @@ export default {
     component: () => import('@/views/employees'),
     // 路由元信息
     meta: {
-      title: '员工' // 侧边栏在遍历的时候，会遍历这里的 title
+      title: '员工', // 侧边栏在遍历的时候，会遍历这里的 title
+      icon: 'people'
     }
   }]
 }
