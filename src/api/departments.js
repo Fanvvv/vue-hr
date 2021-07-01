@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-07-01 18:15:55
  * @LastEditors: fan
- * @LastEditTime: 2021-07-01 20:02:02
+ * @LastEditTime: 2021-07-01 22:26:47
  * @Description: 组织架构页面数据请求的封装
  */
 import request from '@/utils/request'
@@ -23,5 +23,16 @@ export function delDepartments(id) {
   return request({
     url: `/company/department/${id}`,
     method: 'delete'
+  })
+}
+
+/**
+ * @description 添加部门操作
+ */
+export function addDepartment(data) {
+  return request({
+    url: '/company/department',
+    method: 'post',
+    data
   })
 }
