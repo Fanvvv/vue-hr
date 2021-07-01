@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:48:36
  * @LastEditors: fan
- * @LastEditTime: 2021-07-01 19:18:43
+ * @LastEditTime: 2021-07-01 21:29:11
  * @Description: 组织架构页面
 -->
 <template>
@@ -23,6 +23,7 @@
           <tree-tool
             slot-scope="{ data }"
             :tree-node="data"
+            @delDepts="getDepartments"
           />
         </el-tree>
       </el-card>

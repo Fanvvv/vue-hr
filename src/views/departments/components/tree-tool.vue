@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-07-01 17:43:50
  * @LastEditors: fan
- * @LastEditTime: 2021-07-01 18:07:36
+ * @LastEditTime: 2021-07-01 21:44:26
  * @Description: 树形操作栏组件
 -->
 <template>
@@ -20,12 +20,18 @@
       >
         <el-col>{{ treeNode.manager }}</el-col>
         <el-col>
-          <el-dropdown>
+          <el-dropdown @command="operateDepts">
             <span>操作<i class="el-icon-arrow-down" /></span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>添加部门</el-dropdown-item>
-              <el-dropdown-item v-if="!isRoot">编辑部门</el-dropdown-item>
-              <el-dropdown-item v-if="!isRoot">删除部门</el-dropdown-item>
+              <el-dropdown-item command="add">添加部门</el-dropdown-item>
+              <el-dropdown-item
+                v-if="!isRoot"
+                command="edit"
+              >编辑部门</el-dropdown-item>
+              <el-dropdown-item
+                v-if="!isRoot"
+                command="del"
+              >删除部门</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </el-col>
@@ -35,6 +41,7 @@
 </template>
 
 <script>
+import { delDepartments } from '@/api/departments'
 export default {
   name: 'TreeTool',
   props: {
@@ -48,6 +55,24 @@ export default {
     isRoot: { // 是否为根目录，用于判断有多少个操作功能
       type: Boolean,
       default: false
+    }
+  },
+  methods: {
+    operateDepts(type) {
+      if (type === 'add') {
+        // 添加操作
+      } else if (type === 'edit') {
+        // 编辑操作
+      } else {
+        // 删除操作
+        this.$confirm('确定删除该部门吗？').then(() => {
+          return delDepartments(this.treeNode.id)
+        }).then(() => {
+          // 删除成功后执行，发射一个事件让父组件监听
+          this.$emit('delDepts')
+          this.$message.success('删除成功')
+        })
+      }
     }
   }
 }
