@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:48:36
  * @LastEditors: fan
- * @LastEditTime: 2021-07-01 22:39:48
+ * @LastEditTime: 2021-07-01 23:45:54
  * @Description: 组织架构页面
 -->
 <template>
@@ -29,7 +29,10 @@
           />
         </el-tree>
       </el-card>
-      <add-dept :show-dialog="showDialog" />
+      <add-dept
+        :show-dialog="showDialog"
+        :tree-node="node"
+      />
     </div>
   </div>
 </template>
@@ -49,7 +52,8 @@ export default {
       showDialog: false,
       company: {
         name: '湖南毛塘铺公司',
-        manager: '负责人'
+        manager: '负责人',
+        id: '' // 这个id用于判断是否是根节点
       },
       departs: [],
       defaultProps: {
