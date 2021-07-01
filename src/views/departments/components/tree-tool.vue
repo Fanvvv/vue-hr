@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-07-01 17:43:50
  * @LastEditors: fan
- * @LastEditTime: 2021-07-01 21:44:26
+ * @LastEditTime: 2021-07-01 21:54:25
  * @Description: 树形操作栏组件
 -->
 <template>
@@ -65,7 +65,10 @@ export default {
         // 编辑操作
       } else {
         // 删除操作
-        this.$confirm('确定删除该部门吗？').then(() => {
+        this.$confirm('确定删除该部门吗？', '删除部门', {
+          confirmButtonText: '确认',
+          cancelButtonText: '取消'
+        }).then(() => {
           return delDepartments(this.treeNode.id)
         }).then(() => {
           // 删除成功后执行，发射一个事件让父组件监听
