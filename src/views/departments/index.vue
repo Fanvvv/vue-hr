@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:48:36
  * @LastEditors: fan
- * @LastEditTime: 2021-07-01 18:06:39
+ * @LastEditTime: 2021-07-01 19:18:43
  * @Description: 组织架构页面
 -->
 <template>
@@ -32,6 +32,8 @@
 
 <script>
 import TreeTool from './components/tree-tool.vue'
+import { getDepartments } from '@/api/departments'
+import { tranListToTreeData } from '@/utils/index'
 export default {
   components: {
     TreeTool
@@ -42,13 +44,20 @@ export default {
         name: '湖南毛塘铺公司',
         manager: '负责人'
       },
-      departs: [
-        { name: '总裁办', manager: '曹操', children: [{ name: '董事会', manager: '曹丕' }] },
-        { name: '行政部', manager: '刘备' },
-        { name: '人事部', manager: '孙权' }],
+      departs: [],
       defaultProps: {
         label: 'name' // 表示 从这个属性显示内容
       }
+    }
+  },
+  created() {
+    this.getDepartments()
+  },
+  methods: {
+    async getDepartments() {
+      const result = await getDepartments()
+      // console.log(result)
+      this.departs = tranListToTreeData(result.depts, '')
     }
   }
 }

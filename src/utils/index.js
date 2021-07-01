@@ -1,7 +1,26 @@
 /**
- * Created by PanJiaChen on 16/11/18.
+ * @param {Array} list
+ * @param {String} rootValue
+ * @returns arr
+ * @description 用于组织架构页的列表数据转换为树形数据
  */
-
+export function tranListToTreeData(list, rootValue) {
+  const arr = []
+  // 遍历需要转换的数据
+  list.forEach((value) => {
+    // 如果 pid 为 根值，代表这条数据是根数据
+    if (value.pid === rootValue) {
+      // 递归，用 id 去找与之相同的 pid，id 的那条数据是 pid 那条数据的父级
+      const children = tranListToTreeData(list, value.id)
+      // 如果有子级，则将给这条数据添加一个 children 属性
+      if (children.length) {
+        value.children = children
+      }
+      arr.push(value) // 将遍历过后的数据添加到新数组 arr 中
+    }
+  })
+  return arr
+}
 /**
  * Parse the time to string
  * @param {(Object|string|number)} time
