@@ -2,12 +2,12 @@
  * @Author: fan
  * @Date: 2021-07-01 22:02:34
  * @LastEditors: fan
- * @LastEditTime: 2021-07-03 16:04:22
+ * @LastEditTime: 2021-07-03 16:40:37
  * @Description: 新增部门弹出层
 -->
 <template>
   <el-dialog
-    title="新增部门"
+    :title="showTitle"
     :visible="showDialog"
     @close="closeDialog"
   >
@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import { getDepartments, addDepartment } from '@/api/departments'
+import { getDepartments, addDepartment, getDepartDetail } from '@/api/departments'
 import { getEmployeesSimple } from '@/api/employees'
 export default {
   name: 'AddDept',
@@ -133,6 +133,11 @@ export default {
       peoples: []
     }
   },
+  computed: {
+    showTitle() {
+      return this.formData.id ? '编辑部门' : '新增部门'
+    }
+  },
   methods: {
     async checkNameRepeat(rule, value, callback) {
       const { depts } = await getDepartments()
@@ -153,6 +158,11 @@ export default {
       // console.log(result)
       this.peoples = result
     },
+    async getDepartDetail(id) {
+      const result = await getDepartDetail(id)
+      // console.log(result)
+      this.formData = result
+    },
     handleSubmit() {
       this.$refs.deptForm.validate(async isOK => {
         if (isOK) {
@@ -171,6 +181,13 @@ export default {
       this.$refs.deptForm.resetFields()
       // 关闭 dialog
       this.$emit('update:showDialog', false)
+      // 因为 resetFields 方法只能表单上的数据，编辑中不需要使用 id，所以我们要重置以下 formData
+      this.formData = {
+        name: '',
+        code: '',
+        manager: '',
+        introduce: ''
+      }
     }
   }
 }

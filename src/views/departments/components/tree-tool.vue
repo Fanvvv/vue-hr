@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-07-01 17:43:50
  * @LastEditors: fan
- * @LastEditTime: 2021-07-01 22:24:30
+ * @LastEditTime: 2021-07-03 16:21:34
  * @Description: 树形操作栏组件
 -->
 <template>
@@ -65,6 +65,8 @@ export default {
         this.$emit('addDept', this.treeNode)
       } else if (type === 'edit') {
         // 编辑操作
+        // 把树形节点数据传递给父组件
+        this.$emit('editDept', this.treeNode)
       } else {
         // 删除操作
         this.$confirm('确定删除该部门吗？', '删除部门', {

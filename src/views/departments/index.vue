@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:48:36
  * @LastEditors: fan
- * @LastEditTime: 2021-07-03 15:57:26
+ * @LastEditTime: 2021-07-03 16:32:29
  * @Description: 组织架构页面
 -->
 <template>
@@ -26,10 +26,12 @@
             :tree-node="data"
             @delDepts="getDepartments"
             @addDept="addDept"
+            @editDept="editDept"
           />
         </el-tree>
       </el-card>
       <add-dept
+        ref="addDept"
         :show-dialog.sync="showDialog"
         :tree-node="node"
         @addDept="getDepartments"
@@ -76,6 +78,14 @@ export default {
       this.showDialog = true // 显示 dialog
       // 因为node是当前的点击的部门， 此时这个部门应该记录下来,
       this.node = node
+    },
+    editDept(node) {
+      // 显示 dialog
+      this.showDialog = true
+      // 记录当前点击的部门
+      this.node = node
+      // 父组件调用子组件的方法
+      this.$refs.addDept.getDepartDetail(node.id)
     }
   }
 }
