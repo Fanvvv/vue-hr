@@ -2,11 +2,14 @@
  * @Author: fan
  * @Date: 2021-06-30 19:48:36
  * @LastEditors: fan
- * @LastEditTime: 2021-07-03 16:32:29
+ * @LastEditTime: 2021-07-03 17:27:49
  * @Description: 组织架构页面
 -->
 <template>
-  <div class="dashboard-container">
+  <div
+    v-loading="loading"
+    class="dashboard-container"
+  >
     <div class="app-container">
       <el-card class="tree-card">
         <tree-tool
@@ -62,7 +65,8 @@ export default {
       defaultProps: {
         label: 'name' // 表示 从这个属性显示内容
       },
-      node: null // 用来记录新增部门的当前节点
+      node: null, // 用来记录新增部门的当前节点
+      loading: false // 数据获取进度条
     }
   },
   created() {
@@ -70,9 +74,11 @@ export default {
   },
   methods: {
     async getDepartments() {
+      this.loading = true // 打开进度条
       const result = await getDepartments()
       // console.log(result)
       this.departs = tranListToTreeData(result.depts, '')
+      this.loading = false // 关闭进度条
     },
     addDept(node) {
       this.showDialog = true // 显示 dialog
