@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-07-01 22:02:34
  * @LastEditors: fan
- * @LastEditTime: 2021-07-01 23:37:18
+ * @LastEditTime: 2021-07-03 14:16:15
  * @Description: 新增部门弹出层
 -->
 <template>
@@ -44,7 +44,15 @@
           v-model="formData.manager"
           style="width: 80%"
           placeholder="请选择"
-        />
+          @focus="getEmployeesSimple"
+        >
+          <el-option
+            v-for="item in peoples"
+            :key="item.id"
+            :value="item.username"
+            :label="item.username"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item
         label="部门介绍"
@@ -75,6 +83,7 @@
 
 <script>
 import { getDepartments } from '@/api/departments'
+import { getEmployeesSimple } from '@/api/employees'
 export default {
   name: 'AddDept',
   props: {
@@ -91,13 +100,13 @@ export default {
   },
   data() {
     return {
-      formData: {
+      formData: { // 表单数据
         name: '',
         code: '',
         manager: '',
         introduce: ''
       },
-      rules: {
+      rules: { // 校验规则
         name: [
           { required: true, message: '部门名称不能为空', trigger: 'blur' },
           { min: 1, max: 15, message: '长度应为1-15个字符', trigger: 'blur' },
@@ -115,7 +124,8 @@ export default {
           { required: true, message: '部门介绍不能为空', trigger: 'blur' },
           { min: 1, max: 300, message: '长度应为1-300个字符', trigger: 'blur' }
         ]
-      }
+      },
+      peoples: []
     }
   },
   methods: {
@@ -132,6 +142,11 @@ export default {
       const { depts } = await getDepartments()
       const isRepeat = depts.some(item => item.code === value && value)
       isRepeat ? callback(new Error(`${value}编号已存在`)) : callback()
+    },
+    async getEmployeesSimple() {
+      const result = await getEmployeesSimple()
+      // console.log(result)
+      this.peoples = result
     }
   }
 }
