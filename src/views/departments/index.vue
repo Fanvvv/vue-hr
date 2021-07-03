@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:48:36
  * @LastEditors: fan
- * @LastEditTime: 2021-07-01 23:45:54
+ * @LastEditTime: 2021-07-03 15:57:26
  * @Description: 组织架构页面
 -->
 <template>
@@ -30,8 +30,9 @@
         </el-tree>
       </el-card>
       <add-dept
-        :show-dialog="showDialog"
+        :show-dialog.sync="showDialog"
         :tree-node="node"
+        @addDept="getDepartments"
       />
     </div>
   </div>

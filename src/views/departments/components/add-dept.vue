@@ -2,16 +2,18 @@
  * @Author: fan
  * @Date: 2021-07-01 22:02:34
  * @LastEditors: fan
- * @LastEditTime: 2021-07-03 14:16:15
+ * @LastEditTime: 2021-07-03 16:04:22
  * @Description: 新增部门弹出层
 -->
 <template>
   <el-dialog
     title="新增部门"
     :visible="showDialog"
+    @close="closeDialog"
   >
     <!-- 表单 -->
     <el-form
+      ref="deptForm"
       :model="formData"
       :rules="rules"
       label-width="160px"
@@ -74,15 +76,18 @@
       justify="center"
     >
       <el-col :span="6">
-        <el-button>取 消</el-button>
-        <el-button type="primary">确 定</el-button>
+        <el-button @click="closeDialog">取 消</el-button>
+        <el-button
+          type="primary"
+          @click="handleSubmit"
+        >确 定</el-button>
       </el-col>
     </el-row>
   </el-dialog>
 </template>
 
 <script>
-import { getDepartments } from '@/api/departments'
+import { getDepartments, addDepartment } from '@/api/departments'
 import { getEmployeesSimple } from '@/api/employees'
 export default {
   name: 'AddDept',
@@ -147,6 +152,25 @@ export default {
       const result = await getEmployeesSimple()
       // console.log(result)
       this.peoples = result
+    },
+    handleSubmit() {
+      this.$refs.deptForm.validate(async isOK => {
+        if (isOK) {
+          // 表示可以提交了
+          // 调用增加部门的接口，需要传入一个 pid ，表示层级关系
+          await addDepartment({ ...this.formData, pid: this.treeNode.id })
+          // 添加数据到页面并展示
+          this.$emit('addDept')
+          // 关闭 dialog，使用update，需要在父组件的中使用 sync 修饰符，将值直接传给showDialog
+          this.$emit('update:showDialog', false)
+        }
+      })
+    },
+    closeDialog() {
+      // 清空表单记录和校验规则，可以使用elment中表单的resetFields方法
+      this.$refs.deptForm.resetFields()
+      // 关闭 dialog
+      this.$emit('update:showDialog', false)
     }
   }
 }
