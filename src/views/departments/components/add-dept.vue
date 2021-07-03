@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-07-01 22:02:34
  * @LastEditors: fan
- * @LastEditTime: 2021-07-03 16:40:37
+ * @LastEditTime: 2021-07-03 17:23:01
  * @Description: 新增部门弹出层
 -->
 <template>
@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import { getDepartments, addDepartment, getDepartDetail } from '@/api/departments'
+import { getDepartments, addDepartment, getDepartDetail, updateDepartment } from '@/api/departments'
 import { getEmployeesSimple } from '@/api/employees'
 export default {
   name: 'AddDept',
@@ -143,14 +143,30 @@ export default {
       const { depts } = await getDepartments()
       // depts 拿到的是整个 treeNode 的数据，this.treeNode 是当前点击的节点，筛选出当前点击的节点的子节点
       // console.log(depts.filter(item => item.pid === this.treeNode.id))
-      // 在整个子节点中寻找是否有相同的名字，返回一个 boolean 值
-      const isRepeat = depts.filter(item => item.pid === this.treeNode.id).some(item => item.name === value)
+      let isRepeat = false
+      if (this.formData.id) {
+        // 编辑模式
+        // 编辑模式下，校验的时候需要排除自身的数据
+        // 首先找到同级的部门，this.formData.id 就是当前的 id
+        isRepeat = depts.filter(item => item.pid === this.formData.pid && item.id !== this.formData.id).some(item => item.name === value)
+      } else {
+        // 新增模式
+        // 在整个子节点中寻找是否有相同的名字，返回一个 boolean 值
+        isRepeat = depts.filter(item => item.pid === this.treeNode.id).some(item => item.name === value)
+      }
       // 如果找到了这个值，代表该部门已存在
       isRepeat ? callback(new Error(`${value}部门已存在`)) : callback()
     },
     async checkCodeRepeat(rule, value, callback) {
       const { depts } = await getDepartments()
-      const isRepeat = depts.some(item => item.code === value && value)
+      let isRepeat = false
+      if (this.formData.id) {
+        // 编辑模式
+        isRepeat = depts.filter(item => item.id !== this.formData.id).some(item => item.code === value && value)
+      } else {
+        // 新增模式
+        isRepeat = depts.some(item => item.code === value && value)
+      }
       isRepeat ? callback(new Error(`${value}编号已存在`)) : callback()
     },
     async getEmployeesSimple() {
@@ -167,8 +183,15 @@ export default {
       this.$refs.deptForm.validate(async isOK => {
         if (isOK) {
           // 表示可以提交了
-          // 调用增加部门的接口，需要传入一个 pid ，表示层级关系
-          await addDepartment({ ...this.formData, pid: this.treeNode.id })
+          // 通过 formData 中是否有 id，区分是新增还是编辑模式
+          if (this.formData.id) {
+            // 编辑模式
+            await updateDepartment(this.formData)
+          } else {
+            // 新增模式
+            // 调用增加部门的接口，需要传入一个 pid ，表示层级关系
+            await addDepartment({ ...this.formData, pid: this.treeNode.id })
+          }
           // 添加数据到页面并展示
           this.$emit('addDept')
           // 关闭 dialog，使用update，需要在父组件的中使用 sync 修饰符，将值直接传给showDialog
