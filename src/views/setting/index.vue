@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:50:17
  * @LastEditors: fan
- * @LastEditTime: 2021-07-04 15:47:23
+ * @LastEditTime: 2021-07-04 15:57:46
  * @Description: 公司设置页面
 -->
 <template>
@@ -19,6 +19,7 @@
                 icon="el-icon-plus"
                 type="primary"
                 size="small"
+                @click="showDialog = true"
               >新增角色</el-button>
             </el-row>
             <el-table
@@ -131,7 +132,7 @@
       </el-card>
       <el-dialog
         :visible="showDialog"
-        title="编辑角色"
+        :title="showTitle"
         @close="handleClose"
       >
         <el-form
@@ -166,7 +167,7 @@
 </template>
 
 <script>
-import { getRoleList, delRole, getRoleDetail, updateRole } from '@/api/setting'
+import { getRoleList, delRole, getRoleDetail, updateRole, addRole } from '@/api/setting'
 export default {
   data() {
     return {
@@ -186,6 +187,11 @@ export default {
       showDialog: false,
       editData: {},
       rules: { name: [{ required: true, message: '角色名不能为空', tirgger: 'blur' }] }
+    }
+  },
+  computed: {
+    showTitle() {
+      return this.editData.id ? '编辑角色' : '新增角色'
     }
   },
   created() {
@@ -231,6 +237,7 @@ export default {
           await updateRole(this.editData)
         } else {
           // 新增模式
+          await addRole(this.editData)
         }
       } catch (err) {
         console.log(err)
@@ -241,6 +248,13 @@ export default {
       this.showDialog = false
     },
     handleClose() {
+      // 为了去除 id ，重新赋值
+      this.editData = {
+        name: '',
+        description: ''
+      }
+      // 移除校验
+      this.$refs.editForm.resetFields()
       this.showDialog = false
     }
   }

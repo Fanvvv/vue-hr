@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-07-04 13:38:48
  * @LastEditors: fan
- * @LastEditTime: 2021-07-04 15:29:33
+ * @LastEditTime: 2021-07-04 15:51:10
  * @Description: 公司和角色设置
  */
 import request from '@/utils/request'
@@ -44,6 +44,17 @@ export function updateRole(data) {
 export function getRoleDetail(id) {
   return request({
     url: `/sys/role/${id}`
+  })
+}
+
+/**
+ * @description 添加角色信息
+ */
+export function addRole(data) {
+  return request({
+    url: '/sys/role',
+    method: 'post',
+    data
   })
 }
 
