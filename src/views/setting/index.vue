@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:50:17
  * @LastEditors: fan
- * @LastEditTime: 2021-07-04 15:06:24
+ * @LastEditTime: 2021-07-04 15:47:23
  * @Description: 公司设置页面
 -->
 <template>
@@ -57,6 +57,7 @@
                   <el-button
                     type="primary"
                     size="small"
+                    @click="editRole(row.id)"
                   >编辑</el-button>
                   <el-button
                     type="danger"
@@ -128,12 +129,44 @@
           </el-tab-pane>
         </el-tabs>
       </el-card>
+      <el-dialog
+        :visible="showDialog"
+        title="编辑角色"
+        @close="handleClose"
+      >
+        <el-form
+          ref="editForm"
+          :model="editData"
+          :rules="rules"
+          label-width="120px"
+        >
+          <el-form-item
+            label="角色名"
+            prop="name"
+          >
+            <el-input v-model="editData.name" />
+          </el-form-item>
+          <el-form-item label="描述">
+            <el-input v-model="editData.description" />
+          </el-form-item>
+        </el-form>
+        <!-- 表单底部按钮 -->
+        <el-row
+          type="flex"
+          justify="center"
+        >
+          <el-col :span="4">
+            <el-button @click="handleClose">取消</el-button>
+            <el-button @click="handleSubmit">确认</el-button>
+          </el-col>
+        </el-row>
+      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
-import { getRoleList, delRole } from '@/api/setting'
+import { getRoleList, delRole, getRoleDetail, updateRole } from '@/api/setting'
 export default {
   data() {
     return {
@@ -149,7 +182,10 @@ export default {
         rolePhone: '18570561570',
         eMail: 'codeegret@163.com',
         description: 'very good!!!'
-      }
+      },
+      showDialog: false,
+      editData: {},
+      rules: { name: [{ required: true, message: '角色名不能为空', tirgger: 'blur' }] }
     }
   },
   created() {
@@ -169,13 +205,43 @@ export default {
     async delRole(id) {
       // 不使用 promise 需要进行错误捕获
       try {
-        await this.$confirm('确认删除该角色吗？') // 提示框
+        await this.$confirm('确认删除该角色吗？', '删除角色', {
+          confirmButtonText: '确认',
+          cancelButtonText: '取消'
+        }) // 提示框
         await delRole(id) // 根据 id 删除角色
         this.getRoleList() // 重新获取角色列表
         this.$message.success('删除角色成功') // 提示信息
       } catch (err) {
         console.log(err)
       }
+    },
+    async editRole(id) {
+      // 数据回写
+      this.editData = await getRoleDetail(id)
+      this.showDialog = true // 显示弹窗
+    },
+    async handleSubmit() {
+      try {
+        // 表单校验
+        await this.$refs.editForm.validate()
+        // 根据id区分是编辑和新增模式
+        if (this.editData.id) {
+          // 编辑模式
+          await updateRole(this.editData)
+        } else {
+          // 新增模式
+        }
+      } catch (err) {
+        console.log(err)
+      }
+      // 重新拉取数据
+      this.getRoleList()
+      this.$message.success('编辑成功')
+      this.showDialog = false
+    },
+    handleClose() {
+      this.showDialog = false
     }
   }
 }

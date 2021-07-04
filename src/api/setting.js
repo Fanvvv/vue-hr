@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-07-04 13:38:48
  * @LastEditors: fan
- * @LastEditTime: 2021-07-04 14:44:32
+ * @LastEditTime: 2021-07-04 15:29:33
  * @Description: 公司和角色设置
  */
 import request from '@/utils/request'
@@ -28,9 +28,29 @@ export function delRole(id) {
 }
 
 /**
- * @description 根据 id 查询公司信息
+ * @description 修改角色信息
+ */
+export function updateRole(data) {
+  return request({
+    url: `/sys/role/${data.id}`,
+    method: 'put',
+    data
+  })
+}
+
+/**
+ * @description 根据 id 获取角色详细信息
  */
 export function getRoleDetail(id) {
+  return request({
+    url: `/sys/role/${id}`
+  })
+}
+
+/**
+ * @description 根据 id 查询公司信息
+ */
+export function getCompanyDetail(id) {
   return request({
     url: `/company/${id}`
   })
