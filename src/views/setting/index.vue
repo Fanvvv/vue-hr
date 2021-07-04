@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:50:17
  * @LastEditors: fan
- * @LastEditTime: 2021-07-04 14:06:55
+ * @LastEditTime: 2021-07-04 14:41:44
  * @Description: 公司设置页面
 -->
 <template>
@@ -10,7 +10,10 @@
     <div class="app-container">
       <el-card>
         <el-tabs>
-          <el-tab-pane label="角色设置">
+          <el-tab-pane
+            label="角色设置"
+            class="font-size"
+          >
             <el-row style="height: 100px; padding-top: 40px">
               <el-button
                 icon="el-icon-plus"
@@ -59,22 +62,67 @@
                 >删除</el-button>
               </el-table-column>
             </el-table>
+            <el-row
+              style="height: 80px; padding-top: 30px"
+              type="flex"
+              justify="center"
+            >
+              <el-pagination
+                layout="prev,pager,next"
+                :total="page.total"
+                :current-page="page.page"
+                :page-size="page.pagesize"
+                @current-change="changePage"
+              />
+            </el-row>
           </el-tab-pane>
-          <el-tab-pane label="公司设置">公司设置</el-tab-pane>
+          <!-- 公司设置 -->
+          <el-tab-pane label="公司设置">
+            <el-form
+              label-width="200px"
+              style="margin-top: 50px"
+              :model="formData"
+            >
+              <el-form-item label="公司名称">
+                <el-input
+                  v-model="formData.name"
+                  disabled
+                  style="width: 400px"
+                />
+              </el-form-item>
+              <el-form-item label="公司地址">
+                <el-input
+                  v-model="formData.roleAddress"
+                  disabled
+                  style="width: 400px"
+                />
+              </el-form-item>
+              <el-form-item label="公司电话">
+                <el-input
+                  v-model="formData.rolePhone"
+                  disabled
+                  style="width: 400px"
+                />
+              </el-form-item>
+              <el-form-item label="邮箱">
+                <el-input
+                  v-model="formData.eMail"
+                  disabled
+                  style="width: 400px"
+                />
+              </el-form-item>
+              <el-form-item label="备注">
+                <el-input
+                  v-model="formData.description"
+                  type="textarea"
+                  :rows="3"
+                  disabled
+                  style="width: 400px"
+                />
+              </el-form-item>
+            </el-form>
+          </el-tab-pane>
         </el-tabs>
-        <el-row
-          style="height: 80px; padding-top: 30px"
-          type="flex"
-          justify="center"
-        >
-          <el-pagination
-            layout="prev,pager,next"
-            :total="page.total"
-            :current-page="page.page"
-            :page-size="page.pagesize"
-            @current-change="changePage"
-          />
-        </el-row>
       </el-card>
     </div>
   </div>
@@ -90,6 +138,13 @@ export default {
         page: 1,
         pagesize: 3,
         total: 0
+      },
+      formData: {
+        name: '湖南某某某公司',
+        roleAddress: '湖南省长沙市岳麓区',
+        rolePhone: '18570561570',
+        eMail: 'codeegret@163.com',
+        description: 'very good!!!'
       }
     }
   },
@@ -112,4 +167,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.el-tabs ::v-deep .el-tabs__item {
+  width: 150px;
+  text-align: center;
+  font-size: 18px;
+}
 </style>
