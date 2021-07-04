@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:50:17
  * @LastEditors: fan
- * @LastEditTime: 2021-07-04 14:41:44
+ * @LastEditTime: 2021-07-04 15:06:24
  * @Description: 公司设置页面
 -->
 <template>
@@ -48,18 +48,22 @@
                 align="center"
                 width="400"
               >
-                <el-button
-                  type="success"
-                  size="small"
-                >分配权限</el-button>
-                <el-button
-                  type="primary"
-                  size="small"
-                >编辑</el-button>
-                <el-button
-                  type="danger"
-                  size="small"
-                >删除</el-button>
+                <!-- 使用作用域插槽 -->
+                <template slot-scope="{ row }">
+                  <el-button
+                    type="success"
+                    size="small"
+                  >分配权限</el-button>
+                  <el-button
+                    type="primary"
+                    size="small"
+                  >编辑</el-button>
+                  <el-button
+                    type="danger"
+                    size="small"
+                    @click="delRole(row.id)"
+                  >删除</el-button>
+                </template>
               </el-table-column>
             </el-table>
             <el-row
@@ -129,7 +133,7 @@
 </template>
 
 <script>
-import { getRoleList } from '@/api/setting'
+import { getRoleList, delRole } from '@/api/setting'
 export default {
   data() {
     return {
@@ -161,6 +165,17 @@ export default {
     changePage(newPage) {
       this.page.page = newPage
       this.getRoleList()
+    },
+    async delRole(id) {
+      // 不使用 promise 需要进行错误捕获
+      try {
+        await this.$confirm('确认删除该角色吗？') // 提示框
+        await delRole(id) // 根据 id 删除角色
+        this.getRoleList() // 重新获取角色列表
+        this.$message.success('删除角色成功') // 提示信息
+      } catch (err) {
+        console.log(err)
+      }
     }
   }
 }
