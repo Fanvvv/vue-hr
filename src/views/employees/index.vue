@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:49:15
  * @LastEditors: fan
- * @LastEditTime: 2021-07-05 22:43:37
+ * @LastEditTime: 2021-07-05 22:57:31
  * @Description: 员工页面
 -->
 <template>
@@ -89,7 +89,7 @@
             label="操作"
             align="center"
           >
-            <template>
+            <template v-slot="{ row }">
               <el-button
                 type="text"
                 size="small"
@@ -114,6 +114,7 @@
               <el-button
                 type="text"
                 size="small"
+                @click="delEmployees(row.id)"
               >删除</el-button>
             </template>
           </el-table-column>
@@ -140,7 +141,7 @@
 
 <script>
 import PageTools from '@/components/PageTools'
-import { getEmployeesList } from '@/api/employees'
+import { getEmployeesList, delEmployees } from '@/api/employees'
 import EmployeesEnum from '@/api/constant/employees'
 export default {
   components: {
@@ -182,6 +183,19 @@ export default {
     formatWorkingState(row, column, cellValue, index) { // 格式化在职状态
       const result = EmployeesEnum.workingState.find(item => item.id === cellValue)
       return result ? result.value : '未知'
+    },
+    async delEmployees(id) { // 根据 id 删除员工
+      try {
+        await this.$confirm('确认删除该员工吗？', '删除员工', {
+          confirmButtonText: '确认',
+          cancelButtonText: '取消'
+        })
+        await delEmployees(id)
+        await getEmployeesList()
+        this.$message.success('删除员工成功')
+      } catch (err) {
+        console.log(err)
+      }
     }
   }
 }
