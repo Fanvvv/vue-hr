@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-28 19:34:01
  * @LastEditors: fan
- * @LastEditTime: 2021-07-05 20:40:32
+ * @LastEditTime: 2021-07-05 22:30:58
  * @Description: 入口文件
  */
 import Vue from 'vue'
@@ -22,11 +22,17 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 import * as directives from '@/directives' // 自定义指令
+import * as filters from '@/filters' // 过滤器
 import Components from '@/components'
 
 // 遍历所有自定义指令并注册
 Object.keys(directives).forEach((key) => {
   Vue.directive(key, directives[key])
+})
+
+// 注册过滤器
+Object.keys(filters).forEach((key) => {
+  Vue.filter(key, filters[key])
 })
 
 /**

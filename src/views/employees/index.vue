@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:49:15
  * @LastEditors: fan
- * @LastEditTime: 2021-07-05 21:46:19
+ * @LastEditTime: 2021-07-05 22:43:37
  * @Description: 员工页面
 -->
 <template>
@@ -48,6 +48,7 @@
             label="聘用形式"
             width="180"
             property="formOfEmployment"
+            :formatter="formatEmployment"
             sortable
           />
           <el-table-column
@@ -61,11 +62,16 @@
             width="130"
             property="timeOfEntry"
             sortable
-          />
+          >
+            <template v-slot="{ row }">
+              {{ row.timeOfEntry | formatDate }}
+            </template>
+          </el-table-column>
           <el-table-column
             label="是否在职"
             width="130"
             property="inServiceStatus"
+            :formatter="formatWorkingState"
             sortable
           />
           <el-table-column
@@ -73,7 +79,12 @@
             width="130"
             property="enableState"
             sortable
-          />
+          >
+            <template v-slot="{ row }">
+              <!-- value / v-model 绑定值 -->
+              <el-switch :value="row.enableState === 1" />
+            </template>
+          </el-table-column>
           <el-table-column
             label="操作"
             align="center"
@@ -130,6 +141,7 @@
 <script>
 import PageTools from '@/components/PageTools'
 import { getEmployeesList } from '@/api/employees'
+import EmployeesEnum from '@/api/constant/employees'
 export default {
   components: {
     PageTools
@@ -159,6 +171,17 @@ export default {
     changePage(newPage) {
       this.page.page = newPage
       this.getEmployeesList()
+    },
+    formatEmployment(row, column, cellValue, index) { // 格式化聘用形式
+      // console.log(row, column, cellValue, index)
+      // 寻找值所对应的 id
+      const result = EmployeesEnum.hireType.find(item => item.id === cellValue)
+      // console.log(result)
+      return result ? result.value : '未知'
+    },
+    formatWorkingState(row, column, cellValue, index) { // 格式化在职状态
+      const result = EmployeesEnum.workingState.find(item => item.id === cellValue)
+      return result ? result.value : '未知'
     }
   }
 }
