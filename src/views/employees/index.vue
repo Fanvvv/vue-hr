@@ -2,56 +2,82 @@
  * @Author: fan
  * @Date: 2021-06-30 19:49:15
  * @LastEditors: fan
- * @LastEditTime: 2021-07-05 20:55:40
+ * @LastEditTime: 2021-07-05 21:46:19
  * @Description: 员工页面
 -->
 <template>
   <div class="dashboard-container">
     <div class="app-container">
       <page-tools :show-before="true">
-        <span slot="before">共有11条记录</span>
-        <template slot="after">
+        <span slot="before">共有{{ page.total }}条记录</span>
+        <template v-slot:after>
           <el-button type="success">导入</el-button>
           <el-button type="danger">导出</el-button>
           <el-button type="primary">新增员工</el-button>
         </template>
       </page-tools>
-      <el-card>
-        <el-table border>
-          <el-table-column label="序号" />
+      <el-card v-loading="loading">
+        <el-table
+          border
+          :data="list"
+        >
+          <el-table-column
+            label="序号"
+            type="index"
+            width="100"
+          />
           <el-table-column
             label="姓名"
+            width="180"
+            property="username"
             sortable
           />
           <el-table-column
             label="手机号"
+            width="180"
+            property="mobile"
             sortable
           />
           <el-table-column
             label="工号"
+            width="130"
+            property="workNumber"
             sortable
           />
           <el-table-column
             label="聘用形式"
+            width="180"
+            property="formOfEmployment"
             sortable
           />
           <el-table-column
             label="部门"
+            width="180"
+            property="departmentName"
             sortable
           />
           <el-table-column
             label="入职时间"
+            width="130"
+            property="timeOfEntry"
             sortable
           />
           <el-table-column
             label="是否在职"
+            width="130"
+            property="inServiceStatus"
             sortable
           />
           <el-table-column
             label="状态"
+            width="130"
+            property="enableState"
             sortable
           />
-          <el-table-column label="操作">
+          <el-table-column
+            label="操作"
+            align="center"
+          >
             <template>
               <el-button
                 type="text"
@@ -81,6 +107,21 @@
             </template>
           </el-table-column>
         </el-table>
+        <!-- 分页组件 -->
+        <el-row
+          type="flex"
+          justify="center"
+          align="middle"
+          style="height: 100px"
+        >
+          <el-pagination
+            layout="prev, pager, next"
+            :current-page="page.page"
+            :page-size="page.size"
+            :total="page.total"
+            @current-change="changePage"
+          />
+        </el-row>
       </el-card>
     </div>
   </div>
@@ -88,9 +129,37 @@
 
 <script>
 import PageTools from '@/components/PageTools'
+import { getEmployeesList } from '@/api/employees'
 export default {
   components: {
     PageTools
+  },
+  data() {
+    return {
+      loading: false,
+      list: [],
+      page: {
+        page: 1,
+        size: 10,
+        total: 0
+      }
+    }
+  },
+  created() {
+    this.getEmployeesList()
+  },
+  methods: {
+    async getEmployeesList() {
+      this.loading = true
+      const { rows, total } = await getEmployeesList(this.page)
+      this.list = rows
+      this.page.total = total
+      this.loading = false
+    },
+    changePage(newPage) {
+      this.page.page = newPage
+      this.getEmployeesList()
+    }
   }
 }
 </script>

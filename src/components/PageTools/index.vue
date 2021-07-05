@@ -2,12 +2,12 @@
  * @Author: fan
  * @Date: 2021-07-05 19:10:27
  * @LastEditors: fan
- * @LastEditTime: 2021-07-05 20:34:39
+ * @LastEditTime: 2021-07-05 21:47:16
  * @Description: 封装一个页面工具栏组件
 -->
 
 <template>
-  <el-card>
+  <el-card class="page-tools">
     <el-row
       type="flex"
       justify="space-between"
