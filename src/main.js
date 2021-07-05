@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-28 19:34:01
  * @LastEditors: fan
- * @LastEditTime: 2021-06-29 17:52:17
+ * @LastEditTime: 2021-07-05 20:40:32
  * @Description: 入口文件
  */
 import Vue from 'vue'
@@ -22,6 +22,7 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 import * as directives from '@/directives' // 自定义指令
+import Components from '@/components'
 
 // 遍历所有自定义指令并注册
 Object.keys(directives).forEach((key) => {
@@ -45,6 +46,7 @@ if (process.env.NODE_ENV === 'production') {
 Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
+Vue.use(Components) // 全局注册自己封装的组件
 
 Vue.config.productionTip = false
 
