@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-28 19:34:01
  * @LastEditors: fan
- * @LastEditTime: 2021-06-30 20:50:06
+ * @LastEditTime: 2021-07-06 19:54:04
  * @Description: 路由
  */
 import Vue from 'vue'
@@ -57,6 +57,16 @@ export const constantRoutes = [
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
       meta: { title: '首页', icon: 'dashboard' }
+    }]
+  },
+
+  {
+    path: '/import',
+    component: Layout,
+    hidden: true,
+    children: [{
+      path: '', // 不需要二级路由
+      component: () => import('@/views/import/index')
     }]
   },
 

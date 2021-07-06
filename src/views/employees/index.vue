@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:49:15
  * @LastEditors: fan
- * @LastEditTime: 2021-07-06 17:01:14
+ * @LastEditTime: 2021-07-06 20:14:50
  * @Description: 员工页面
 -->
 <template>
@@ -11,7 +11,10 @@
       <page-tools :show-before="true">
         <span slot="before">共有{{ page.total }}条记录</span>
         <template v-slot:after>
-          <el-button type="success">导入</el-button>
+          <el-button
+            type="success"
+            @click="$router.push('/import?type=user')"
+          >导入</el-button>
           <el-button type="danger">导出</el-button>
           <el-button
             type="primary"
