@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:49:15
  * @LastEditors: fan
- * @LastEditTime: 2021-07-05 22:57:31
+ * @LastEditTime: 2021-07-06 17:01:14
  * @Description: 员工页面
 -->
 <template>
@@ -13,7 +13,10 @@
         <template v-slot:after>
           <el-button type="success">导入</el-button>
           <el-button type="danger">导出</el-button>
-          <el-button type="primary">新增员工</el-button>
+          <el-button
+            type="primary"
+            @click="showDialog = true"
+          >新增员工</el-button>
         </template>
       </page-tools>
       <el-card v-loading="loading">
@@ -135,17 +138,20 @@
           />
         </el-row>
       </el-card>
+      <add-employees :show-dialog.sync="showDialog" />
     </div>
   </div>
 </template>
 
 <script>
 import PageTools from '@/components/PageTools'
+import AddEmployees from './components/add-employees.vue'
 import { getEmployeesList, delEmployees } from '@/api/employees'
 import EmployeesEnum from '@/api/constant/employees'
 export default {
   components: {
-    PageTools
+    PageTools,
+    AddEmployees
   },
   data() {
     return {
@@ -155,7 +161,8 @@ export default {
         page: 1,
         size: 10,
         total: 0
-      }
+      },
+      showDialog: false
     }
   },
   created() {
