@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:49:15
  * @LastEditors: fan
- * @LastEditTime: 2021-07-14 15:32:35
+ * @LastEditTime: 2021-07-14 16:31:28
  * @Description: 员工页面
 -->
 <template>
@@ -205,7 +205,7 @@ export default {
           cancelButtonText: '取消'
         })
         await delEmployees(id)
-        await getEmployeesList()
+        await this.getEmployeesList()
         this.$message.success('删除员工成功')
       } catch (err) {
         console.log(err)
