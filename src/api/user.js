@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-28 19:34:01
  * @LastEditors: fan
- * @LastEditTime: 2021-06-29 17:23:38
+ * @LastEditTime: 2021-07-14 21:22:46
  * @Description: api用户模块的封装
  */
 import request from '@/utils/request'
@@ -32,7 +32,4 @@ export function getUserDetailById(id) {
   return request({
     url: `/sys/user/${id}`
   })
-}
-
-export function logout() {
 }

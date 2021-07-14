@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-07-03 14:06:33
  * @LastEditors: fan
- * @LastEditTime: 2021-07-06 19:58:09
+ * @LastEditTime: 2021-07-14 21:41:17
  * @Description: 获取员工数据
  */
 
@@ -56,5 +56,16 @@ export function importEmployees(data) {
     url: '/sys/user/batch',
     method: 'post',
     data // 这是一个数组
+  })
+}
+
+/**
+ * 保存员工基本信息
+ */
+export function saveUserDetailById(data) {
+  return request({
+    url: `/sys/user/${data.id}`,
+    method: 'put',
+    data
   })
 }

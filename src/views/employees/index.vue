@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:49:15
  * @LastEditors: fan
- * @LastEditTime: 2021-07-14 16:31:28
+ * @LastEditTime: 2021-07-14 21:02:52
  * @Description: 员工页面
 -->
 <template>
@@ -102,6 +102,7 @@
               <el-button
                 type="text"
                 size="small"
+                @click="$router.push(`/employees/detail/${row.id}`)"
               >查看
               </el-button>
               <el-button

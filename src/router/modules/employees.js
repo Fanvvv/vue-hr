@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:51:46
  * @LastEditors: fan
- * @LastEditTime: 2021-06-30 21:08:26
+ * @LastEditTime: 2021-07-14 21:04:09
  * @Description: 员工页路由
  */
 import Layout from '@/layout'
@@ -18,5 +18,14 @@ export default {
       title: '员工', // 侧边栏在遍历的时候，会遍历这里的 title
       icon: 'people'
     }
-  }]
+  },
+  {
+    path: 'detail/:id', // :id 后面添加？表示id可加可不加
+    component: () => import('@/views/employees/detail'),
+    hidden: true,
+    meta: {
+      title: '员工详情'
+    }
+  }
+  ]
 }
