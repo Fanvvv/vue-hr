@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:49:15
  * @LastEditors: fan
- * @LastEditTime: 2021-07-06 20:14:50
+ * @LastEditTime: 2021-07-14 15:32:35
  * @Description: 员工页面
 -->
 <template>
@@ -15,7 +15,10 @@
             type="success"
             @click="$router.push('/import?type=user')"
           >导入</el-button>
-          <el-button type="danger">导出</el-button>
+          <el-button
+            type="danger"
+            @click="exportData"
+          >导出</el-button>
           <el-button
             type="primary"
             @click="showDialog = true"
@@ -151,6 +154,7 @@ import PageTools from '@/components/PageTools'
 import AddEmployees from './components/add-employees.vue'
 import { getEmployeesList, delEmployees } from '@/api/employees'
 import EmployeesEnum from '@/api/constant/employees'
+import { formatDate } from '@/filters'
 export default {
   components: {
     PageTools,
@@ -206,6 +210,46 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+    formatJson(headers, rows) { // 格式化数据 将 [{}] 转换成 [[]]
+      return rows.map(item => {
+        // item是一个对象  { mobile: 185xxxxx, username: 'fans' }
+        return Object.keys(headers).map(key => {
+          // 对时间格式进行处理
+          if (headers[key] === 'timeOfEntry' || headers[key] === 'correctionTime') {
+            return formatDate(item[headers[key]])
+          } else if (headers[key] === 'formOfEmployment') {
+            const obj = EmployeesEnum.hireType.find(obj => obj.id === item[headers[key]])
+            return obj ? obj.value : '未知'
+          }
+          return item[headers[key]]
+        })
+      })
+      // return rows.map(item => Object.keys(headers).map(key => item[headers[key]]))
+    },
+    exportData() { // excel 导出
+      // 表头对应关系
+      const headers = {
+        '手机号': 'mobile',
+        '姓名': 'username',
+        '入职日期': 'timeOfEntry',
+        '聘用形式': 'formOfEmployment',
+        '转正日期': 'correctionTime',
+        '工号': 'workNumber',
+        '部门': 'departmentName'
+      }
+      // 按需加载 export 中的功能
+      import('@/vendor/Export2Excel').then(async excel => {
+        const { rows } = await getEmployeesList({ page: 1, size: this.page.total })
+        const data = this.formatJson(headers, rows)
+        excel.export_json_to_excel({
+          header: Object.keys(headers),
+          data,
+          filename: '员工信息表',
+          autoWidth: true,
+          bookType: 'xlsx' // 默认为 xlsx
+        })
+      })
     }
   }
 }
