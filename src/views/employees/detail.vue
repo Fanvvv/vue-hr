@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-07-14 16:49:53
  * @LastEditors: fan
- * @LastEditTime: 2021-07-14 22:08:15
+ * @LastEditTime: 2021-07-14 23:41:06
  * @Description: 员工的详情页
 -->
 <template>
@@ -43,8 +43,13 @@
               </el-form-item>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane label="个人详情">个人详情</el-tab-pane>
-          <el-tab-pane label="岗位信息">岗位信息</el-tab-pane>
+          <el-tab-pane label="个人详情">
+            <!-- 动态组件写法，可以自由切换组件 -->
+            <component :is="componentUserInfo" />
+          </el-tab-pane>
+          <el-tab-pane label="岗位信息">
+            <component :is="componentJobInfo" />
+          </el-tab-pane>
         </el-tabs>
       </el-card>
     </div>
@@ -54,9 +59,17 @@
 <script>
 import { getUserDetailById } from '@/api/user'
 import { saveUserDetailById } from '@/api/employees'
+import UserInfo from './components/user-info.vue'
+import JobInfo from './components/job-info.vue'
 export default {
+  components: {
+    UserInfo,
+    JobInfo
+  },
   data() {
     return {
+      componentUserInfo: 'user-info',
+      componentJobInfo: 'JobInfo',
       userId: this.$route.params.id,
       userInfo: {
         username: '',
