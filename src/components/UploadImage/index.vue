@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-07-15 13:50:55
  * @LastEditors: fan
- * @LastEditTime: 2021-07-15 16:55:41
+ * @LastEditTime: 2021-07-15 20:11:18
  * @Description: 上传图片组件
 -->
 <template>
@@ -111,11 +111,12 @@ export default {
           // console.log(err || data)
           // 没有错误且状态码为200，表示上传成功
           if (!err && data.statusCode === 200) {
-            this.fileList.map(item => {
+            // 这里出现 bug 需要将上传成功的fileList传回给fileList，才会显示腾讯云的地址
+            this.fileList = this.fileList.map(item => {
               if (item.uid === this.currentFileUid) {
                 return {
                   url: 'http://' + data.Location,
-                  update: true // 用该属性标记是否上传成功，后面可以通过这个属性来判断是否上传成功
+                  upload: true // 用该属性标记是否上传成功，后面可以通过这个属性来判断是否上传成功
                 }
               }
               return item

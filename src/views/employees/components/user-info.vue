@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-07-14 22:27:03
  * @LastEditors: fan
- * @LastEditTime: 2021-07-15 13:59:11
+ * @LastEditTime: 2021-07-15 19:57:15
  * @Description: 个人详情组件
 -->
 <template>
@@ -86,7 +86,7 @@
         <el-col :span="12">
           <el-form-item label="员工头像">
             <!-- 放置上传图片 -->
-            <upload-image />
+            <upload-image ref="userPhoto" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -126,9 +126,9 @@
         </el-form-item>
         <!-- 个人头像 -->
         <!-- 员工照片 -->
-
         <el-form-item label="员工照片">
           <!-- 放置上传图片 -->
+          <upload-image ref="userPic" />
         </el-form-item>
         <el-form-item label="国家/地区">
           <el-select
@@ -568,16 +568,39 @@ export default {
   methods: {
     async getUserDetailById() { // 获取用户基本信息，进行回显
       this.userInfo = await getUserDetailById(this.userId)
+      // 处理用户头像回显
+      if (this.userInfo.staffPhoto) {
+        // 需要给赋值的地址一个标记 upload: true
+        this.$refs.userPhoto.fileList = [{ url: this.userInfo.staffPhoto, upload: true }]
+      }
     },
     async getPersonalDetail() { // 获取用户基础信息，进行回显
       this.formData = await getPersonalDetail(this.userId)
+      // 处理用户照片回显
+      if (this.formData.staffPhoto) {
+        this.$refs.userPic.fileList = [{ url: this.formData.staffPhoto, upload: true }]
+      }
     },
     async saveUser() { // 保存用户基本信息
-      await saveUserDetailById(this.userInfo)
+      // 读取上传的头像
+      const fileList = this.$refs.userPhoto.fileList
+      // 没有找到 upload，说明图片还没上传完成
+      if (fileList.some(item => !item.upload)) {
+        this.$message.warning('您当前头像还没有上传完成')
+        return
+      }
+      // 将数据合并 发给服务端
+      await saveUserDetailById({ ...this.userInfo, staffPhoto: fileList && fileList.length ? fileList[0].url : '' })
       this.$message.success('保存用户基本信息成功')
     },
     async savePersonal() { // 保存用户基础信息
-      await updatePersonal(this.formData)
+      // 读取上传的照片
+      const fileList = this.$refs.userPic.fileList
+      if (fileList.some(item => !item.upload)) {
+        this.$message.warning('您当前照片还没有上传完成')
+        return
+      }
+      await updatePersonal({ ...this.formData, staffPhoto: fileList && fileList.length ? fileList[0].url : '' })
       this.$message.success('保存用户基础信息成功')
     }
   }
