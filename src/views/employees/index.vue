@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:49:15
  * @LastEditors: fan
- * @LastEditTime: 2021-07-15 20:40:51
+ * @LastEditTime: 2021-07-15 22:22:25
  * @Description: 员工页面
 -->
 <template>
@@ -55,6 +55,7 @@
                 :src="row.staffPhoto"
                 style="border-radius: 50%; width: 140px; height: 140px; padding: 20px"
                 alt=""
+                @click="showQrCode(row.staffPhoto)"
               >
             </template>
           </el-table-column>
@@ -170,6 +171,17 @@
         </el-row>
       </el-card>
       <add-employees :show-dialog.sync="showDialog" />
+      <el-dialog
+        :visible.sync="showCanvas"
+        title="二维码"
+      >
+        <el-row
+          type="flex"
+          justify="center"
+        >
+          <canvas ref="myCanvas" />
+        </el-row>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -180,6 +192,7 @@ import AddEmployees from './components/add-employees.vue'
 import { getEmployeesList, delEmployees } from '@/api/employees'
 import EmployeesEnum from '@/api/constant/employees'
 import { formatDate } from '@/filters'
+import QrCode from 'qrcode'
 export default {
   components: {
     PageTools,
@@ -195,6 +208,7 @@ export default {
         total: 0
       },
       showDialog: false,
+      showCanvas: false,
       defaultImg: require('@/assets/common/head.jpg')
     }
   },
@@ -276,6 +290,16 @@ export default {
           bookType: 'xlsx' // 默认为 xlsx
         })
       })
+    },
+    showQrCode(url) {
+      if (url) {
+        this.showCanvas = true
+        this.$nextTick(() => { // 如果页面有更新，在页面渲染完成后执行
+          QrCode.toCanvas(this.$refs.myCanvas, url) // 将链接转化为二维码
+        })
+      } else {
+        this.$message.warning('该用户还未上传头像')
+      }
     }
   }
 }
