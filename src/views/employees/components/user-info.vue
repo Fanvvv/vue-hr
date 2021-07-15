@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-07-14 22:27:03
  * @LastEditors: fan
- * @LastEditTime: 2021-07-15 11:31:52
+ * @LastEditTime: 2021-07-15 13:59:11
  * @Description: 个人详情组件
 -->
 <template>
@@ -86,7 +86,7 @@
         <el-col :span="12">
           <el-form-item label="员工头像">
             <!-- 放置上传图片 -->
-
+            <upload-image />
           </el-form-item>
         </el-col>
       </el-row>
@@ -483,10 +483,14 @@
 </template>
 
 <script>
+import UploadImage from '@/components/UploadImage'
 import EmployeeEnum from '@/api/constant/employees'
 import { getUserDetailById } from '@/api/user'
 import { getPersonalDetail, saveUserDetailById, updatePersonal } from '@/api/employees'
 export default {
+  components: {
+    UploadImage
+  },
   data() {
     return {
       userId: this.$route.params.id,
