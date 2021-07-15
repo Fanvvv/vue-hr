@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-07-14 16:49:53
  * @LastEditors: fan
- * @LastEditTime: 2021-07-15 11:40:56
+ * @LastEditTime: 2021-07-15 22:43:37
  * @Description: 员工的详情页
 -->
 <template>
@@ -44,10 +44,32 @@
             </el-form>
           </el-tab-pane>
           <el-tab-pane label="个人详情">
+            <!-- 打印按钮 -->
+            <el-row
+              type="flex"
+              justify="end"
+            >
+              <el-tooltip content="打印个人基本信息">
+                <router-link :to="`/employees/print/${userId}?type=personal`">
+                  <i class="el-icon-printer" />
+                </router-link>
+              </el-tooltip>
+            </el-row>
             <!-- 动态组件写法，可以自由切换组件 -->
             <component :is="componentUserInfo" />
           </el-tab-pane>
           <el-tab-pane label="岗位信息">
+            <!-- 打印按钮 -->
+            <el-row
+              type="flex"
+              justify="end"
+            >
+              <el-tooltip content="打印岗位信息">
+                <router-link :to="`/employees/print/${userId}?type=job`">
+                  <i class="el-icon-printer" />
+                </router-link>
+              </el-tooltip>
+            </el-row>
             <component :is="componentJobInfo" />
           </el-tab-pane>
         </el-tabs>

@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:51:46
  * @LastEditors: fan
- * @LastEditTime: 2021-07-14 21:04:09
+ * @LastEditTime: 2021-07-15 22:39:43
  * @Description: 员工页路由
  */
 import Layout from '@/layout'
@@ -25,6 +25,14 @@ export default {
     hidden: true,
     meta: {
       title: '员工详情'
+    }
+  },
+  {
+    path: 'print/:id',
+    component: () => import('@/views/employees/print'),
+    hidden: true,
+    meta: {
+      title: '员工信息打印'
     }
   }
   ]
