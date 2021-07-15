@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-07-14 23:37:44
  * @LastEditors: fan
- * @LastEditTime: 2021-07-14 23:43:20
+ * @LastEditTime: 2021-07-15 11:39:38
  * @Description: 岗位信息组件
 -->
 <template>
@@ -243,6 +243,7 @@
 
 <script>
 import EmployeeEnum from '@/api/constant/employees'
+import { getEmployeesSimple, getJobDetail, updateJob } from '@/api/employees'
 export default {
   data() {
     return {
@@ -277,6 +278,22 @@ export default {
         workingCity: '', // 工作城市
         workingTimeForTheFirstTime: '' // 首次参加工作时间
       }
+    }
+  },
+  created() {
+    this.getEmployeesSimple()
+    this.getJobDetail()
+  },
+  methods: {
+    async getEmployeesSimple() { // 获取员工简单列表
+      this.depts = await getEmployeesSimple()
+    },
+    async getJobDetail() { // 获取用户岗位信息
+      this.formData = await getJobDetail(this.userId)
+    },
+    async saveJob() { // 保存用户岗位信息
+      await updateJob(this.formData)
+      this.$message.success('保存用户岗位信息成功')
     }
   }
 }

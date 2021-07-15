@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-07-03 14:06:33
  * @LastEditors: fan
- * @LastEditTime: 2021-07-14 21:41:17
+ * @LastEditTime: 2021-07-15 10:37:54
  * @Description: 获取员工数据
  */
 
@@ -65,6 +65,46 @@ export function importEmployees(data) {
 export function saveUserDetailById(data) {
   return request({
     url: `/sys/user/${data.id}`,
+    method: 'put',
+    data
+  })
+}
+
+/**
+ * 获取用户详情的基础信息
+ */
+export function getPersonalDetail(id) {
+  return request({
+    url: `/employees/${id}/personalInfo`
+  })
+}
+
+/**
+ * 更新用户详情的基础信息
+ */
+export function updatePersonal(data) {
+  return request({
+    url: `/employees/${data.userId}/personalInfo`,
+    method: 'put',
+    data
+  })
+}
+
+/**
+ * 获取用户的岗位信息
+ */
+export function getJobDetail(id) {
+  return request({
+    url: `/employees/${id}/jobs`
+  })
+}
+
+/**
+ * 更新用户的岗位信息
+ */
+export function updateJob(data) {
+  return request({
+    url: `/employees/${data.userId}/jobs`,
     method: 'put',
     data
   })

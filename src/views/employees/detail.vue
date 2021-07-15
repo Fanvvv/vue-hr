@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-07-14 16:49:53
  * @LastEditors: fan
- * @LastEditTime: 2021-07-14 23:41:06
+ * @LastEditTime: 2021-07-15 11:40:56
  * @Description: 员工的详情页
 -->
 <template>
@@ -98,7 +98,6 @@ export default {
   methods: {
     async getUserDetailById() {
       this.userInfo = await getUserDetailById(this.userId)
-      console.log(this.userInfo)
     },
     async saveUser() {
       try {

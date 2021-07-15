@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-07-14 22:27:03
  * @LastEditors: fan
- * @LastEditTime: 2021-07-14 23:34:36
+ * @LastEditTime: 2021-07-15 11:31:52
  * @Description: 个人详情组件
 -->
 <template>
@@ -484,6 +484,8 @@
 
 <script>
 import EmployeeEnum from '@/api/constant/employees'
+import { getUserDetailById } from '@/api/user'
+import { getPersonalDetail, saveUserDetailById, updatePersonal } from '@/api/employees'
 export default {
   data() {
     return {
@@ -553,6 +555,26 @@ export default {
         proofOfDepartureOfFormerCompany: '', // 前公司离职证明
         remarks: '' // 备注
       }
+    }
+  },
+  created() {
+    this.getUserDetailById()
+    this.getPersonalDetail()
+  },
+  methods: {
+    async getUserDetailById() { // 获取用户基本信息，进行回显
+      this.userInfo = await getUserDetailById(this.userId)
+    },
+    async getPersonalDetail() { // 获取用户基础信息，进行回显
+      this.formData = await getPersonalDetail(this.userId)
+    },
+    async saveUser() { // 保存用户基本信息
+      await saveUserDetailById(this.userInfo)
+      this.$message.success('保存用户基本信息成功')
+    },
+    async savePersonal() { // 保存用户基础信息
+      await updatePersonal(this.formData)
+      this.$message.success('保存用户基础信息成功')
     }
   }
 }
