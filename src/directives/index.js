@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-29 17:38:10
  * @LastEditors: fan
- * @LastEditTime: 2021-06-29 17:45:29
+ * @LastEditTime: 2021-07-15 20:31:57
  * @Description: 负责管理所用自定义指令
  */
 
@@ -20,5 +20,8 @@ export const imagerror = {
       // 当图片出现异常的时候 会将指令配置的默认图片设置为该图片的内容
       dom.src = options.value // 这里不要写死
     }
+  },
+  componentUpdated(dom, options) { // 这个也是个钩子函数，在组件数据更新时会调用
+    dom.src = dom.src || options.value
   }
 }

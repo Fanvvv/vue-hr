@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:49:15
  * @LastEditors: fan
- * @LastEditTime: 2021-07-14 21:02:52
+ * @LastEditTime: 2021-07-15 20:40:51
  * @Description: 员工页面
 -->
 <template>
@@ -34,29 +34,49 @@
             label="序号"
             type="index"
             width="100"
+            align="center"
           />
           <el-table-column
             label="姓名"
             width="180"
             property="username"
+            align="center"
             sortable
           />
+          <el-table-column
+            label="头像"
+            width="180"
+            align="center"
+            sortable
+          >
+            <template v-slot="{ row }">
+              <img
+                v-imagerror="defaultImg"
+                :src="row.staffPhoto"
+                style="border-radius: 50%; width: 140px; height: 140px; padding: 20px"
+                alt=""
+              >
+            </template>
+          </el-table-column>
           <el-table-column
             label="手机号"
             width="180"
             property="mobile"
+            align="center"
             sortable
           />
           <el-table-column
             label="工号"
             width="130"
             property="workNumber"
+            align="center"
             sortable
           />
           <el-table-column
             label="聘用形式"
             width="180"
             property="formOfEmployment"
+            align="center"
             :formatter="formatEmployment"
             sortable
           />
@@ -64,12 +84,14 @@
             label="部门"
             width="180"
             property="departmentName"
+            align="center"
             sortable
           />
           <el-table-column
             label="入职时间"
             width="130"
             property="timeOfEntry"
+            align="center"
             sortable
           >
             <template v-slot="{ row }">
@@ -80,6 +102,7 @@
             label="是否在职"
             width="130"
             property="inServiceStatus"
+            align="center"
             :formatter="formatWorkingState"
             sortable
           />
@@ -87,6 +110,7 @@
             label="状态"
             width="130"
             property="enableState"
+            align="center"
             sortable
           >
             <template v-slot="{ row }">
@@ -170,7 +194,8 @@ export default {
         size: 10,
         total: 0
       },
-      showDialog: false
+      showDialog: false,
+      defaultImg: require('@/assets/common/head.jpg')
     }
   },
   created() {
