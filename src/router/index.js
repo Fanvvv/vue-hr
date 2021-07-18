@@ -2,11 +2,20 @@
  * @Author: fan
  * @Date: 2021-06-28 19:34:01
  * @LastEditors: fan
- * @LastEditTime: 2021-07-06 19:54:04
+ * @LastEditTime: 2021-07-18 21:36:48
  * @Description: 路由
  */
 import Vue from 'vue'
 import Router from 'vue-router'
+// 引入模块
+import approvalsRouter from './modules/approvals'
+import departmentsRouter from './modules/departments'
+import employeesRouter from './modules/employees'
+import permissionRouter from './modules/permission'
+import attendancesRouter from './modules/attendances'
+import salarysRouter from './modules/salarys'
+import settingRouter from './modules/setting'
+import socialRouter from './modules/social'
 
 Vue.use(Router)
 
@@ -78,7 +87,7 @@ export const constantRoutes = [
  * 定义一个动态路由 asyncRoutes
  * 动态路由根据权限的不同展示不同的页面
  */
-const asyncRoutes = []
+// const asyncRoutes = []
 /**
  * 将 modules 中的模块都导入，并且 push 到 constantRoutes 中
  * 使用 webpack 中的 require.context 方法将路由统一导入
@@ -86,13 +95,25 @@ const asyncRoutes = []
  * 第二个参数：是否遍历目录下的子目录，boolean
  * 第三个参数：匹配文件的正则表达式
  */
-const file = require.context('./modules', false, /\.js$/)
+// const file = require.context('./modules', false, /\.js$/)
 // console.log(file.keys())
-file.keys().map(value => {
-  // console.log(file(value).default)
-  asyncRoutes.push(file(value).default)
-})
+// file.keys().map(value => {
+//   console.log(file(value).default)
+//   asyncRoutes.push(file(value).default)
+// })
 // console.log(asyncRoutes)
+
+// 直接一个一个引入
+export const asyncRoutes = [
+  approvalsRouter,
+  departmentsRouter,
+  employeesRouter,
+  permissionRouter,
+  attendancesRouter,
+  salarysRouter,
+  settingRouter,
+  socialRouter
+]
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support

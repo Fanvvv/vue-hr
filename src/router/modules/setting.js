@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:51:46
  * @LastEditors: fan
- * @LastEditTime: 2021-06-30 21:09:10
+ * @LastEditTime: 2021-07-18 22:09:13
  * @Description: 公司设置页路由
  */
 import Layout from '@/layout'
@@ -11,7 +11,7 @@ export default {
   component: Layout,
   children: [{
     path: '', // 二级路由不需要写，在访问一级路由的时候，可以访问下面这个组件
-    name: 'setting', // 这个 name 在后面的权限管理中会用到
+    name: 'settings', // 这个 name 在后面的权限管理中会用到
     component: () => import('@/views/setting'),
     // 路由元信息
     meta: {

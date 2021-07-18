@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-28 19:34:01
  * @LastEditors: fan
- * @LastEditTime: 2021-06-29 17:19:19
+ * @LastEditTime: 2021-07-18 22:07:13
  * @Description: 权限拦截再进行路由跳转（路由守卫）
  */
 // 权限拦截再路由跳转 路由守卫
@@ -28,10 +28,18 @@ router.beforeEach(async(to, from, next) => {
       next('/')
     } else {
       if (!store.getters.userId) {
-        await store.dispatch('user/getUserInfo')
+        const { roles } = await store.dispatch('user/getUserInfo')
+        // actions是做异步操作的
+        const routes = await store.dispatch('permission/filterRoutes', roles.menus)
+        // routes就是筛选得到的动态路由
+        // 使用 addRoutes 动态添加更多的路由规则
+        router.addRoutes(routes)
+        // 添加完动态路由之后
+        next(to.path) // 相当于跳到对应的地址  相当于多做一次跳转
+      } else {
+        // 直接放行
+        next()
       }
-      // 直接放行
-      next()
     }
   } else {
     // 如果没有 token，判断是否在白名单中
