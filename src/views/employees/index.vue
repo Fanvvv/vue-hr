@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:49:15
  * @LastEditors: fan
- * @LastEditTime: 2021-07-15 22:22:25
+ * @LastEditTime: 2021-07-18 14:14:26
  * @Description: 员工页面
 -->
 <template>
@@ -145,6 +145,7 @@
               <el-button
                 type="text"
                 size="small"
+                @click="assignRole(row.id)"
               >角色</el-button>
               <el-button
                 type="text"
@@ -182,6 +183,12 @@
           <canvas ref="myCanvas" />
         </el-row>
       </el-dialog>
+      <!-- 分配角色弹层 -->
+      <assign-role
+        ref="assignRole"
+        :show-assign-dialog.sync="showAssign"
+        :user-id="userId"
+      />
     </div>
   </div>
 </template>
@@ -193,10 +200,12 @@ import { getEmployeesList, delEmployees } from '@/api/employees'
 import EmployeesEnum from '@/api/constant/employees'
 import { formatDate } from '@/filters'
 import QrCode from 'qrcode'
+import AssignRole from './components/assign-role.vue'
 export default {
   components: {
     PageTools,
-    AddEmployees
+    AddEmployees,
+    AssignRole
   },
   data() {
     return {
@@ -209,7 +218,9 @@ export default {
       },
       showDialog: false,
       showCanvas: false,
-      defaultImg: require('@/assets/common/head.jpg')
+      showAssign: false,
+      defaultImg: require('@/assets/common/head.jpg'),
+      userId: null
     }
   },
   created() {
@@ -300,6 +311,11 @@ export default {
       } else {
         this.$message.warning('该用户还未上传头像')
       }
+    },
+    async assignRole(id) { // 分配角色
+      this.userId = id
+      await this.$refs.assignRole.getUserDetailById(id) // 父组件调用子组件的方法
+      this.showAssign = true
     }
   }
 }

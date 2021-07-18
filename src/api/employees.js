@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-07-03 14:06:33
  * @LastEditors: fan
- * @LastEditTime: 2021-07-15 10:37:54
+ * @LastEditTime: 2021-07-18 13:53:32
  * @Description: 获取员工数据
  */
 
@@ -105,6 +105,17 @@ export function getJobDetail(id) {
 export function updateJob(data) {
   return request({
     url: `/employees/${data.userId}/jobs`,
+    method: 'put',
+    data
+  })
+}
+
+/**
+ * 给员工分配角色
+ */
+export function assignRoles(data) {
+  return request({
+    url: '/sys/user/assignRoles',
     method: 'put',
     data
   })
