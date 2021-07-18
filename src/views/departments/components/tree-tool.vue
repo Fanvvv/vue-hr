@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-07-01 17:43:50
  * @LastEditors: fan
- * @LastEditTime: 2021-07-03 16:21:34
+ * @LastEditTime: 2021-07-18 23:23:23
  * @Description: 树形操作栏组件
 -->
 <template>
@@ -23,14 +23,19 @@
           <el-dropdown @command="operateDepts">
             <span>操作<i class="el-icon-arrow-down" /></span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="add">添加部门</el-dropdown-item>
+              <el-dropdown-item
+                command="add"
+                :disabled="!checkPermission('add-dept')"
+              >添加部门</el-dropdown-item>
               <el-dropdown-item
                 v-if="!isRoot"
                 command="edit"
+                :disabled="!checkPermission('edit-dept')"
               >编辑部门</el-dropdown-item>
               <el-dropdown-item
                 v-if="!isRoot"
                 command="del"
+                :disabled="!checkPermission('del-dept')"
               >删除部门</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>

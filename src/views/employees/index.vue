@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:49:15
  * @LastEditors: fan
- * @LastEditTime: 2021-07-18 14:14:26
+ * @LastEditTime: 2021-07-18 23:29:37
  * @Description: 员工页面
 -->
 <template>
@@ -20,6 +20,7 @@
             @click="exportData"
           >导出</el-button>
           <el-button
+            :disabled="!checkPermission('add-employees')"
             type="primary"
             @click="showDialog = true"
           >新增员工</el-button>
@@ -127,6 +128,7 @@
               <el-button
                 type="text"
                 size="small"
+                :disabled="!checkPermission('check-employees')"
                 @click="$router.push(`/employees/detail/${row.id}`)"
               >查看
               </el-button>
@@ -150,6 +152,7 @@
               <el-button
                 type="text"
                 size="small"
+                :disabled="!checkPermission('del-employees')"
                 @click="delEmployees(row.id)"
               >删除</el-button>
             </template>

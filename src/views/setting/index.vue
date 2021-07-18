@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:50:17
  * @LastEditors: fan
- * @LastEditTime: 2021-07-18 16:23:36
+ * @LastEditTime: 2021-07-18 23:42:59
  * @Description: 公司设置页面
 -->
 <template>
@@ -19,6 +19,7 @@
                 icon="el-icon-plus"
                 type="primary"
                 size="small"
+                :disabled="!checkPermission('add-role')"
                 @click="show = true"
               >新增角色</el-button>
             </el-row>
@@ -54,16 +55,19 @@
                   <el-button
                     type="success"
                     size="small"
+                    :disabled="!checkPermission('assign-perm')"
                     @click="assignPerm(row.id)"
                   >分配权限</el-button>
                   <el-button
                     type="primary"
                     size="small"
+                    :disabled="!checkPermission('edit-role')"
                     @click="editRole(row.id)"
                   >编辑</el-button>
                   <el-button
                     type="danger"
                     size="small"
+                    :disabled="!checkPermission('del-role')"
                     @click="delRole(row.id)"
                   >删除</el-button>
                 </template>

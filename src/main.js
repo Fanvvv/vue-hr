@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-28 19:34:01
  * @LastEditors: fan
- * @LastEditTime: 2021-07-05 22:30:58
+ * @LastEditTime: 2021-07-18 23:02:58
  * @Description: 入口文件
  */
 import Vue from 'vue'
@@ -24,6 +24,7 @@ import '@/permission' // permission control
 import * as directives from '@/directives' // 自定义指令
 import * as filters from '@/filters' // 过滤器
 import Components from '@/components'
+import CheckPermission from '@/mixin/checkPermission'
 
 // 遍历所有自定义指令并注册
 Object.keys(directives).forEach((key) => {
@@ -53,6 +54,8 @@ Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
 Vue.use(Components) // 全局注册自己封装的组件
+// 全局混入一个检测对象
+Vue.mixin(CheckPermission)
 
 Vue.config.productionTip = false
 
