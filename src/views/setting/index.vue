@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:50:17
  * @LastEditors: fan
- * @LastEditTime: 2021-07-04 15:57:46
+ * @LastEditTime: 2021-07-18 16:23:36
  * @Description: 公司设置页面
 -->
 <template>
@@ -19,7 +19,7 @@
                 icon="el-icon-plus"
                 type="primary"
                 size="small"
-                @click="showDialog = true"
+                @click="show = true"
               >新增角色</el-button>
             </el-row>
             <el-table
@@ -54,6 +54,7 @@
                   <el-button
                     type="success"
                     size="small"
+                    @click="assignPerm(row.id)"
                   >分配权限</el-button>
                   <el-button
                     type="primary"
@@ -162,19 +163,50 @@
           </el-col>
         </el-row>
       </el-dialog>
+      <el-dialog
+        :visible="showPerm"
+        title="分配权限"
+        @close="handlePermClose"
+      >
+        <el-tree
+          ref="permTree"
+          :data="permData"
+          :props="defaultProps"
+          :show-checkbox="true"
+          :check-strictly="true"
+          :default-expand-all="true"
+          :default-checked-keys="selectCheck"
+          node-key="id"
+        />
+        <el-row
+          slot="footer"
+          type="flex"
+          justify="center"
+        >
+          <el-col :span="6">
+            <el-button @click="handlePermClose">取消</el-button>
+            <el-button
+              type="primary"
+              @click="handlePermSubmit"
+            >确认</el-button>
+          </el-col>
+        </el-row>
+      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
-import { getRoleList, delRole, getRoleDetail, updateRole, addRole } from '@/api/setting'
+import { getRoleList, delRole, getRoleDetail, updateRole, addRole, assignPerm } from '@/api/setting'
+import { tranListToTreeData } from '@/utils'
+import { getPermission } from '@/api/permission'
 export default {
   data() {
     return {
       list: [],
       page: {
         page: 1,
-        pagesize: 3,
+        pagesize: 10,
         total: 0
       },
       formData: {
@@ -186,7 +218,14 @@ export default {
       },
       showDialog: false,
       editData: {},
-      rules: { name: [{ required: true, message: '角色名不能为空', tirgger: 'blur' }] }
+      rules: { name: [{ required: true, message: '角色名不能为空', tirgger: 'blur' }] },
+      showPerm: false,
+      defaultProps: {
+        label: 'name'
+      },
+      permData: [], // 专门用来接收权限数据 树形数据
+      selectCheck: [], // 定义一个数组来接收 已经选中的节点
+      roleId: null // 用来记录分配角色的id
     }
   },
   computed: {
@@ -256,6 +295,23 @@ export default {
       // 移除校验
       this.$refs.editForm.resetFields()
       this.showDialog = false
+    },
+    async assignPerm(id) {
+      this.permData = tranListToTreeData(await getPermission(), '0')
+      this.roleId = id
+      const { permIds } = await getRoleDetail(id) // permIds是当前角色所拥有的权限点数据
+      this.selectCheck = permIds // 将当前角色所拥有的权限id赋值
+      this.showPerm = true
+    },
+    handlePermClose() {
+      this.selectCheck = [] // 重置数据
+      this.showPerm = false
+    },
+    async handlePermSubmit() {
+      // 调用el-tree的 getCheckedKeys 方法
+      await assignPerm({ permIds: this.$refs.permTree.getCheckedKeys(), id: this.roleId })
+      this.$message.success('分配权限成功')
+      this.showPerm = false
     }
   }
 }

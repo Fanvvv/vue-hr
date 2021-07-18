@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-07-04 13:38:48
  * @LastEditors: fan
- * @LastEditTime: 2021-07-04 15:51:10
+ * @LastEditTime: 2021-07-18 16:15:54
  * @Description: 公司和角色设置
  */
 import request from '@/utils/request'
@@ -64,5 +64,16 @@ export function addRole(data) {
 export function getCompanyDetail(id) {
   return request({
     url: `/company/${id}`
+  })
+}
+
+/**
+ * 给角色分配权限
+ */
+export function assignPerm(data) {
+  return request({
+    url: '/sys/role/assignPrem',
+    method: 'put',
+    data
   })
 }
