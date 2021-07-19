@@ -97,7 +97,10 @@
               class="sideBtn"
               @click="handleApply"
             >离职申请</el-button>
-            <el-button class="sideBtn">请假调休</el-button>
+            <el-button
+              class="sideBtn"
+              disabled
+            >请假调休</el-button>
             <el-button
               class="sideBtn"
               @click="$router.push('/users/approvals')"
@@ -153,6 +156,7 @@
     <el-dialog
       :visible="showDialog"
       title="离职申请"
+      @close="handleCancel"
     >
       <!-- 表单内容 -->
       <el-form

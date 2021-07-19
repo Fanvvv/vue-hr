@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-28 19:34:01
  * @LastEditors: fan
- * @LastEditTime: 2021-07-18 21:36:48
+ * @LastEditTime: 2021-07-19 22:43:25
  * @Description: 路由
  */
 import Vue from 'vue'
@@ -16,6 +16,7 @@ import attendancesRouter from './modules/attendances'
 import salarysRouter from './modules/salarys'
 import settingRouter from './modules/setting'
 import socialRouter from './modules/social'
+import userRouter from './modules/user'
 
 Vue.use(Router)
 
@@ -78,7 +79,8 @@ export const constantRoutes = [
       component: () => import('@/views/import/index')
     }]
   },
-
+  // 放置一个用户路由，每个用户都可以访问
+  userRouter,
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
