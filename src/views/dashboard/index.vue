@@ -93,10 +93,19 @@
             <span>流程申请</span>
           </div>
           <div class="sideNav">
-            <el-button class="sideBtn">加班离职</el-button>
+            <el-button
+              class="sideBtn"
+              @click="handleApply"
+            >离职申请</el-button>
             <el-button class="sideBtn">请假调休</el-button>
-            <el-button class="sideBtn">审批列表</el-button>
-            <el-button class="sideBtn">我的信息</el-button>
+            <el-button
+              class="sideBtn"
+              @click="$router.push('/users/approvals')"
+            >审批列表</el-button>
+            <el-button
+              class="sideBtn"
+              @click="$router.push('/users/info')"
+            >我的信息</el-button>
           </div>
         </el-card>
 
@@ -141,12 +150,62 @@
         </el-card>
       </el-col>
     </el-row>
+    <el-dialog
+      :visible="showDialog"
+      title="离职申请"
+    >
+      <!-- 表单内容 -->
+      <el-form
+        ref="ruleForm"
+        label-width="120px"
+        :model="ruleForm"
+        :rules="rules"
+      >
+        <el-form-item
+          label="期望离职时间"
+          prop="exceptTime"
+        >
+          <!-- 离职时间 返回的值就是 字符串结构了 -->
+          <el-date-picker
+            v-model="ruleForm.exceptTime"
+            type="datetime"
+            value-format="yyyy-MM-dd HH:mm:ss"
+          />
+        </el-form-item>
+        <!-- 放置输入框 -->
+        <el-form-item
+          label="离职原因"
+          prop="reason"
+        >
+          <el-input
+            v-model="ruleForm.reason"
+            type="textarea"
+            :rows="3"
+            style="width: 70%;"
+          />
+        </el-form-item>
+      </el-form>
+      <el-row
+        type="flex"
+        justify="center"
+      >
+        <el-col :span="6">
+          <el-button @click="handleCancel">取消</el-button>
+          <el-button
+            type="primary"
+            @click="handleSubmit"
+          >确认</el-button>
+        </el-col>
+      </el-row>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import WorkCalendar from './components/work-calendar.vue'
 import Radar from './components/radar.vue'
+import { startProcess } from '@/api/approvals'
+
 import { mapGetters, createNamespacedHelpers } from 'vuex'
 const { mapState } = createNamespacedHelpers('user')
 
@@ -158,7 +217,21 @@ export default {
   },
   data() {
     return {
-      defaultImg: require('@/assets/common/head.jpg')
+      defaultImg: require('@/assets/common/head.jpg'),
+      showDialog: false,
+      // 离职表单
+      ruleForm: {
+        // 离职时间
+        exceptTime: '',
+        // 离职原因
+        reason: '',
+        processKey: 'process_dimission', // 特定的审批
+        processName: '离职'
+      },
+      rules: {
+        exceptTime: [{ trigger: 'blur', required: true, message: '离职时间不能为空' }],
+        reason: [{ trigger: 'blur', required: true, message: '离职原因不能为空' }]
+      }
     }
   },
   computed: {
@@ -166,6 +239,37 @@ export default {
       'name', 'staffPhoto'
     ]),
     ...mapState(['userInfo'])
+  },
+  methods: {
+    handleApply() {
+      this.showDialog = true
+    },
+    handleSubmit() {
+      // this.$refs.ruleForm.validate(isOK => {})
+      // this.$refs.ruleForm.validate().then()
+      // await this.$refs.ruleForm.validate().then()
+      this.$refs.ruleForm.validate(async isOK => {
+        if (isOK) {
+          //  调用离职申请 流程接口
+          await startProcess({ ...this.ruleForm, userId: this.userInfo.userId, username: this.userInfo.username })
+          // 弹出提示
+          this.$message.success('离职申请提交成功')
+          this.showDialog = false
+        }
+      })
+    },
+    handleCancel() {
+      this.ruleForm = {
+        // 离职时间
+        exceptTime: '',
+        // 离职原因
+        reason: '',
+        processKey: 'process_dimission', // 特定的审批
+        processName: '离职'
+      }
+      this.$refs.ruleForm.resetFields()
+      this.showDialog = false
+    }
   }
 }
 </script>
