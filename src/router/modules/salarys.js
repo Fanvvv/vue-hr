@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-30 19:51:46
  * @LastEditors: fan
- * @LastEditTime: 2021-06-30 21:08:55
+ * @LastEditTime: 2021-07-19 19:36:51
  * @Description: 工资页路由
  */
 import Layout from '@/layout'
@@ -17,6 +17,42 @@ export default {
     meta: {
       title: '工资', // 侧边栏在遍历的时候，会遍历这里的 title
       icon: 'money'
+    }
+  },
+  {
+    path: 'setting',
+    component: () => import('@/views/salarys/setting'),
+    name: 'salarysSetting',
+    hidden: true,
+    meta: {
+      title: '设置'
+    }
+  },
+  {
+    path: 'details/:yearMonth/:id',
+    component: () => import('@/views/salarys/detail'),
+    name: 'salarysDetails',
+    hidden: true,
+    meta: {
+      title: '详情'
+    }
+  },
+  {
+    path: 'historicalArchiving',
+    component: () => import('@/views/salarys/historical'),
+    name: 'salarysHistorical',
+    hidden: true,
+    meta: {
+      title: '历史归档'
+    }
+  },
+  {
+    path: 'monthStatement',
+    component: () => import('@/views/salarys/month'),
+    name: 'salarysMonthStatement',
+    hidden: true,
+    meta: {
+      title: '月报表'
     }
   }]
 }
