@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-07-20 11:30:30
  * @LastEditors: fan
- * @LastEditTime: 2021-07-20 11:30:57
+ * @LastEditTime: 2021-07-20 13:44:38
  * @Description: 主题色组件
 -->
 <template>

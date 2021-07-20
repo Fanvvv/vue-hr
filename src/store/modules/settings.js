@@ -1,11 +1,19 @@
+/*
+ * @Author: fan
+ * @Date: 2021-06-28 19:34:01
+ * @LastEditors: fan
+ * @LastEditTime: 2021-07-20 13:43:53
+ * @Description: 页面设置的 vuex
+ */
 import defaultSettings from '@/settings'
 
-const { showSettings, fixedHeader, sidebarLogo } = defaultSettings
+const { showSettings, fixedHeader, sidebarLogo, theme } = defaultSettings
 
 const state = {
   showSettings: showSettings,
   fixedHeader: fixedHeader,
-  sidebarLogo: sidebarLogo
+  sidebarLogo: sidebarLogo,
+  theme
 }
 
 const mutations = {

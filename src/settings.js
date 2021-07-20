@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-28 19:34:01
  * @LastEditors: fan
- * @LastEditTime: 2021-06-29 16:14:38
+ * @LastEditTime: 2021-07-20 13:42:20
  * @Description: 项目的设置
  */
 module.exports = {
@@ -19,5 +19,6 @@ module.exports = {
    * @type {boolean} true | false
    * @description 是否展示侧边栏的 logo
    */
-  sidebarLogo: true
+  sidebarLogo: true,
+  theme: '#409EFF'
 }
