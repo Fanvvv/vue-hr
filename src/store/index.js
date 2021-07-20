@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-28 19:34:01
  * @LastEditors: fan
- * @LastEditTime: 2021-07-18 20:52:49
+ * @LastEditTime: 2021-07-20 13:29:20
  * @Description: Vuex管理模块
  */
 import Vue from 'vue'
@@ -12,6 +12,7 @@ import app from './modules/app'
 import settings from './modules/settings'
 import user from './modules/user'
 import permission from './modules/permission'
+import tagsView from './modules/tagsView'
 
 Vue.use(Vuex)
 
@@ -20,7 +21,8 @@ const store = new Vuex.Store({
     app,
     settings,
     user,
-    permission
+    permission,
+    tagsView
   },
   getters
 })

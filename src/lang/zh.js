@@ -7,6 +7,7 @@ export default {
     logs: '日志管理',
     example: '示例',
     table: '数据列表',
+    myInfo: '我的信息',
     // permissions: '权限管理',
     // employees: '员工',
     // employeesList: '员工管理',

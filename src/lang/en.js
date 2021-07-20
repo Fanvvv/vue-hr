@@ -8,6 +8,7 @@ export default {
     logs: 'logs',
     example: 'example',
     table: 'table',
+    myInfo: 'myInfo',
 
     postInfo: 'Job information',
     manageSelf: 'Manager self-help',

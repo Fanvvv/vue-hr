@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-07-05 20:35:44
  * @LastEditors: fan
- * @LastEditTime: 2021-07-20 12:40:55
+ * @LastEditTime: 2021-07-20 13:28:26
  * @Description: 组件统一全局注册入口
  */
 
@@ -13,6 +13,7 @@ import Print from 'vue-print-nb'
 import ScreenFull from './ScreenFull'
 import ThemePicker from './ThemePicker'
 import LangSelect from './LangSelect'
+import TagsView from './TagsView'
 
 export default {
   install(Vue) {
@@ -24,5 +25,6 @@ export default {
     Vue.component('ScreenFull', ScreenFull) // 注册全屏组件
     Vue.component('ThemePicker', ThemePicker) // 注册主题色组件
     Vue.component('LangSelect', LangSelect) // 注册多语言组件
+    Vue.component('TagsView', TagsView) // 注册多页签组件
   }
 }
