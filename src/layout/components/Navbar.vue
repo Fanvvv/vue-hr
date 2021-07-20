@@ -13,6 +13,8 @@
     </div>
 
     <div class="right-menu">
+      <!-- 放置多语言组件 -->
+      <lang-select class="right-menu-item" />
       <!-- 放置主题色组件 -->
       <theme-picker class="right-menu-item" />
       <!-- 放置全屏组件 -->

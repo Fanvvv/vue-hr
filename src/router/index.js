@@ -2,7 +2,7 @@
  * @Author: fan
  * @Date: 2021-06-28 19:34:01
  * @LastEditors: fan
- * @LastEditTime: 2021-07-19 22:43:25
+ * @LastEditTime: 2021-07-20 12:50:10
  * @Description: 路由
  */
 import Vue from 'vue'
@@ -64,7 +64,7 @@ export const constantRoutes = [
     redirect: '/dashboard',
     children: [{
       path: 'dashboard',
-      name: 'Dashboard',
+      name: 'dashboard',
       component: () => import('@/views/dashboard/index'),
       meta: { title: '首页', icon: 'dashboard' }
     }]
