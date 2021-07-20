@@ -19,6 +19,11 @@ let cdn = { css: [], js: [] }
 let externals = {}
 // 判断是否为生产环境，如果是生产环境则使用cdn的方法
 if (process.env.NODE_ENV === 'production') {
+  externals = {
+    'element-ui': 'ELEMENT',
+    'xlsx': 'XLSX',
+    'vue': 'Vue'
+  }
   cdn = {
     css: [
       // element-ui css
@@ -32,11 +37,6 @@ if (process.env.NODE_ENV === 'production') {
       'https://cdn.jsdelivr.net/npm/xlsx@0.17/dist/jszip.min.js',
       'https://cdn.jsdelivr.net/npm/xlsx@0.17/dist/xlsx.full.min.js'
     ]
-  }
-  externals = {
-    'vue': 'Vue',
-    'element-ui': 'ELEMENT',
-    'xlsx': 'XLSX'
   }
 }
 
